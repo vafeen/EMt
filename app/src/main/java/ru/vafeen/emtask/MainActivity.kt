@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         lifecycleScope.launch(Dispatchers.IO) {
             val data = networkRepository.getJsonData()
-            Log.d("response", "data = ${data.string()}")
+            Log.d("response", "data = ${data.body()}")
         }
     }
 }
