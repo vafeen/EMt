@@ -28,11 +28,17 @@ class SearchFragmentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Main) {
             vacancyData = networkRepository.getJsonData().body()
             vacancyData?.let {
-                vacanciesAdapter.vacancies = it.vacancies.subList(0, 2)
-                offersAdapter.offers = it.offers
-                vacanciesAdapter.notifyDataSetChanged()
+                displayPreviewVacancies()
+                displayAllOffers()
                 modifyButtonText(it)
             }
+        }
+    }
+
+    private fun displayAllOffers() {
+        vacancyData?.let {
+            offersAdapter.offers = it.offers
+            offersAdapter.notifyDataSetChanged()
         }
     }
 
@@ -41,6 +47,14 @@ class SearchFragmentViewModel @Inject constructor(
             vacanciesAdapter.vacancies = it.vacancies
             vacanciesAdapter.notifyDataSetChanged()
             allVacanciesAreDisplayed = true
+        }
+    }
+
+    fun displayPreviewVacancies() {
+        vacancyData?.let {
+            vacanciesAdapter.vacancies = it.vacancies.subList(0, 2)
+            vacanciesAdapter.notifyDataSetChanged()
+            allVacanciesAreDisplayed = false
         }
     }
 }
