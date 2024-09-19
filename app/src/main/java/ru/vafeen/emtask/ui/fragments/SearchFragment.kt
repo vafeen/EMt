@@ -10,26 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import ru.vafeen.emtask.databinding.FragmentSearchBinding
 import ru.vafeen.emtask.ui.components.modifiers.CustomItemDecoration
 import ru.vafeen.emtask.ui.components.modifiers.CustomLinearLayoutManager
 import ru.vafeen.emtask.ui.components.viewmodels.SearchFragmentViewModel
 import ru.vafeen.emtask.ui.utils.generateMoreCountOfVacanciesByCount
-import ru.vafeen.network.GDriveService
-import ru.vafeen.network.GDriveServiceLink
-import java.time.LocalTime
 
-suspend fun main() {
-    val x = Retrofit.Builder()
-        .baseUrl(GDriveServiceLink.BASE_LINK)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build().create(GDriveService::class.java)
-    println(LocalTime.now())
-    x.getJsonData()
-    println(LocalTime.now())
-}
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -52,7 +38,9 @@ class SearchFragment : Fragment() {
             if (it.vacancies.isNotEmpty()) {
                 binding.vacanciesScrollview.isVisible = true
                 viewModel.mainButtonText =
-                    generateMoreCountOfVacanciesByCount(count = it.vacancies.size)
+                    generateMoreCountOfVacanciesByCount(count = it.vacancies.size) { str ->
+                        "Еще ${it.vacancies.size} $str"
+                    }
                 binding.button.text = viewModel.mainButtonText
             }
             if (it.offers.isNotEmpty()) {

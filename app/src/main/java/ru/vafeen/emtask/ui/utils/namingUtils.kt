@@ -24,11 +24,10 @@ fun generatePublishedDateByLocalDate(localDate: LocalDate): String =
         }
     }"
 
-fun generateMoreCountOfVacanciesByCount(count: Int): String = "Еще $count ${
+fun <T> generateMoreCountOfVacanciesByCount(count: Int, addVacanciesWord: (String) -> T) =
     when {
-        count in 11..19 -> "вакансий"
-        count % 10 == 1 -> "вакансия"
-        count % 10 in 2..4 -> "вакансии"
-        else -> "вакансий"
+        count in 11..19 -> addVacanciesWord("вакансий")
+        count % 10 == 1 -> addVacanciesWord("вакансия")
+        count % 10 in 2..4 -> addVacanciesWord("вакансии")
+        else -> addVacanciesWord("вакансий")
     }
-}"
