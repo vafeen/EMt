@@ -54,12 +54,13 @@
             tools:layout_editor_absoluteX="245dp" />
     </androidx.cardview.widget.CardView>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/offers_listview"
         android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_marginTop="72dp"
         android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/search_card_view"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -74,12 +75,12 @@
         app:layout_constraintStart_toStartOf="@+id/offers_listview"
         app:layout_constraintTop_toBottomOf="@id/offers_listview" />
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/vacancies_listview"
-        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
         android:layout_marginBottom="24dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="0dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="@id/settings_card_view"
@@ -88,12 +89,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginHorizontal="15dp"
         android:layout_marginBottom="8dp"
-        tools:text="Еще х вакансий"
+        android:layout_marginHorizontal="15dp"
+        android:layout_width="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Еще х вакансий" />
 </androidx.constraintlayout.widget.ConstraintLayout>
