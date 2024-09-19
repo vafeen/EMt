@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.vafeen.emtask.R
-import ru.vafeen.emtask.ui.utils.generatePeopleViewStringByCount
+import ru.vafeen.emtask.ui.utils.generateCountOfPeopleByCount
 import ru.vafeen.emtask.ui.utils.generatePublishedDateByLocalDate
 import ru.vafeen.emtask.ui.utils.parseDateFromString
 import ru.vafeen.network.response.Vacancy
@@ -25,7 +25,9 @@ class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAda
 
 
         fun bind(vacancy: Vacancy) {
-            lookingNumber.text = generatePeopleViewStringByCount(count = vacancy.lookingNumber)
+            lookingNumber.text = generateCountOfPeopleByCount(count = vacancy.lookingNumber) {
+                "Сейчас просматривает ${vacancy.lookingNumber} человек"
+            }
             title.text = vacancy.title
             town.text = vacancy.address.town
             company.text = vacancy.company

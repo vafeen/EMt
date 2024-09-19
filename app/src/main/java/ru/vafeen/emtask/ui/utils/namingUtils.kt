@@ -3,7 +3,6 @@ package ru.vafeen.emtask.ui.utils
 import java.time.LocalDate
 import java.time.Month
 
-fun generatePeopleViewStringByCount(count: Int): String = "Сейчас просматривает $count человек"
 
 fun generatePublishedDateByLocalDate(localDate: LocalDate): String =
     "Опубликовано ${localDate.dayOfMonth} ${
@@ -30,4 +29,10 @@ fun <T> generateMoreCountOfVacanciesByCount(count: Int, addVacanciesWord: (Strin
         count % 10 == 1 -> addVacanciesWord("вакансия")
         count % 10 in 2..4 -> addVacanciesWord("вакансии")
         else -> addVacanciesWord("вакансий")
+    }
+
+fun <T> generateCountOfPeopleByCount(count: Int, addPeopleWord: (String) -> T) =
+    when {
+        count % 10 in 2..4 -> addPeopleWord("человека")
+        else -> addPeopleWord("человек")
     }
