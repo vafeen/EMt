@@ -13,4 +13,9 @@
     <color name="text_color">#9F9F9F</color>
     <color name="transparent">#00000000</color>
     <color name="button_response_color">#4CB24E</color>
+    <color name="green">#4CB24E</color>
+    <color name="blue">#2B7EFE</color>
+    <color name="dark_blue">#00427D</color>
+    <color name="dark_green">#015905</color>
+
 </resources>
