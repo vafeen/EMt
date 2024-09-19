@@ -12,7 +12,6 @@
 
     <LinearLayout
         android:id="@+id/search_linear_layout"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -98,9 +97,11 @@
             android:gravity="end"
             android:layout_weight="1"
             android:textSize="14sp"
+            android:text="По соответствию"
             android:textColor="@color/blue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawablePadding="6dp"
             app:drawableEndCompat="@drawable/unfold" />
     </LinearLayout>
 

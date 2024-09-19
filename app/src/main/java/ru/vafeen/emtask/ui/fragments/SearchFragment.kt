@@ -83,7 +83,6 @@ class SearchFragment : Fragment() {
         val countOfVacancies = viewModel.vacanciesAdapter.vacancies.size
         binding.countOfVacancies.text =
             generateMoreCountOfVacanciesByCount(count = countOfVacancies) { "$countOfVacancies $it" }
-        binding.sortBy.text = "По соответствию"
         binding.countOfVacancies.isVisible = true
     }
 
