@@ -25,9 +25,11 @@ class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAda
 
 
         fun bind(vacancy: Vacancy) {
-            lookingNumber.text = generateCountOfPeopleByCount(count = vacancy.lookingNumber) {
-                "Сейчас просматривает ${vacancy.lookingNumber} человек"
-            }
+            val lookingNumberInt = vacancy.lookingNumber
+            lookingNumber.text =
+                if (lookingNumberInt != null) generateCountOfPeopleByCount(count = lookingNumberInt) {
+                    "Сейчас просматривает ${vacancy.lookingNumber} $it"
+                } else ""
             title.text = vacancy.title
             town.text = vacancy.address.town
             company.text = vacancy.company

@@ -2,7 +2,7 @@ package ru.vafeen.network.response
 
 data class Vacancy(
     val id: String,
-    val lookingNumber: Int,
+    val lookingNumber: Int?,
     val title: String,
     val address: Address,
     val company: String,
