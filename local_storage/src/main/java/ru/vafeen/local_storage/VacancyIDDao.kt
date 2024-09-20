@@ -7,7 +7,7 @@ import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface VacancyDao {
+interface VacancyIDDao {
 
     @Query("SELECT * FROM vacancyid")
     fun getAll(): Flow<List<VacancyID>>

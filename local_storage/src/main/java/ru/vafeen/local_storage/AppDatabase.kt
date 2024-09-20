@@ -5,6 +5,6 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [VacancyID::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun vacancyDao(): VacancyDao
+    abstract fun vacancyDao(): VacancyIDDao
 
 }
