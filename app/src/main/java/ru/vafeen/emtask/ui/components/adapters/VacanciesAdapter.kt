@@ -7,14 +7,17 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.vafeen.emtask.R
+import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.utils.generateCountOfPeopleByCount
 import ru.vafeen.emtask.ui.utils.generatePublishedDateByLocalDate
 import ru.vafeen.emtask.ui.utils.parseDateFromString
+import ru.vafeen.local_storage.VacancyID
 import ru.vafeen.network.response.Vacancy
-import javax.inject.Inject
 
-class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
-    var vacancies: List<Vacancy> = emptyList()
+class VacanciesAdapter(private val vacationClickListener: VacationClickListener) :
+    RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
+    var vacancies: MutableList<Vacancy> = mutableListOf()
+    var ids: List<VacancyID> = emptyList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val lookingNumber: TextView = itemView.findViewById(R.id.looking_number_tv)
@@ -25,7 +28,7 @@ class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAda
         private val publishedDate: TextView = itemView.findViewById(R.id.publishedDate)
         private val isFavourite: ImageButton = itemView.findViewById(R.id.is_favourite)
 
-        fun bind(vacancy: Vacancy) {
+        fun bind(vacancy: Vacancy, position: Int) {
             val lookingNumberInt = vacancy.lookingNumber
             lookingNumber.text =
                 if (lookingNumberInt != null) generateCountOfPeopleByCount(count = lookingNumberInt) {
@@ -37,11 +40,18 @@ class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAda
             experience.text = vacancy.experience.previewText
             publishedDate.text =
                 generatePublishedDateByLocalDate(localDate = parseDateFromString(date = vacancy.publishedDate))
-            isFavourite.setImageResource(if (vacancy.isFavorite) R.drawable.colored_heart else R.drawable.heart)
+            isFavourite.setImageResource(if (vacancy.id in ids.map { it.vacancyID }) R.drawable.colored_heart else R.drawable.heart)
             isFavourite.setOnClickListener {
-                val newVacancy = vacancy.copy(isFavorite = !vacancy.isFavorite)
-                // databaseRepository.insert(newVacancy)
-                this@VacanciesAdapter.notifyItemChanged(vacancies.indexOf(vacancy))
+                val newISFavourite = !vacancy.isFavorite
+                vacancies[position] = vacancy.copy(isFavorite = newISFavourite)
+                if (newISFavourite)
+                    vacationClickListener.onClickAddVacancyToFavouriteByIDListener(
+                        VacancyID(vacancyID = vacancy.id)
+                    )
+                else vacationClickListener.onClickRemoveVacancyFromFavouriteByIDListener(
+                    VacancyID(vacancyID = vacancy.id)
+                )
+                this@VacanciesAdapter.notifyItemChanged(position)
             }
         }
     }
@@ -53,7 +63,7 @@ class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAda
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val vacancy = vacancies[position]
-        holder.bind(vacancy = vacancy)
+        holder.bind(vacancy = vacancy, position = position)
     }
 
     override fun getItemCount(): Int = vacancies.size
