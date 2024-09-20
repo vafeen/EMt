@@ -91,6 +91,7 @@
             tools:text="Опубликован 20 февраля" />
 
         <ImageButton
+            android:id="@+id/is_favourite"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:background="@color/transparent"

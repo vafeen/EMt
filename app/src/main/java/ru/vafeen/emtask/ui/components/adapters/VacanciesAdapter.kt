@@ -3,6 +3,7 @@ package ru.vafeen.emtask.ui.components.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.vafeen.emtask.R
@@ -22,7 +23,7 @@ class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAda
         private val company: TextView = itemView.findViewById(R.id.company)
         private val experience: TextView = itemView.findViewById(R.id.experience)
         private val publishedDate: TextView = itemView.findViewById(R.id.publishedDate)
-
+        private val isFavourite: ImageButton = itemView.findViewById(R.id.is_favourite)
 
         fun bind(vacancy: Vacancy) {
             val lookingNumberInt = vacancy.lookingNumber
@@ -36,6 +37,12 @@ class VacanciesAdapter @Inject constructor() : RecyclerView.Adapter<VacanciesAda
             experience.text = vacancy.experience.previewText
             publishedDate.text =
                 generatePublishedDateByLocalDate(localDate = parseDateFromString(date = vacancy.publishedDate))
+            isFavourite.setImageResource(if (vacancy.isFavorite) R.drawable.colored_heart else R.drawable.heart)
+            isFavourite.setOnClickListener {
+                val newVacancy = vacancy.copy(isFavorite = !vacancy.isFavorite)
+                // databaseRepository.insert(newVacancy)
+                this@VacanciesAdapter.notifyItemChanged(vacancies.indexOf(vacancy))
+            }
         }
     }
 
