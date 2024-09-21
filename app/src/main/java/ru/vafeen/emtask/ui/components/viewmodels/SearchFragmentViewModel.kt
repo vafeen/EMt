@@ -28,21 +28,25 @@ class SearchFragmentViewModel(
 
     val offersAdapter: OffersAdapter by inject(clazz = OffersAdapter::class.java)
     fun collectDataFromLocalDB(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getAllVacancy().collect {
                 if (allVacanciesAreDisplayed) {
                     vacanciesAdapter.vacancies = it
                 } else {
                     vacanciesAdapter.vacancies = if (it.size > 2) it.subList(0, 2) else it
                 }
-                vacanciesAdapter.notifyDataSetChanged()
-                modifyButtonText(it.size, offersAdapter.offers.size)
+                withContext(Dispatchers.Main) {
+                    vacanciesAdapter.notifyDataSetChanged()
+                    modifyButtonText(it.size, offersAdapter.offers.size)
+                }
             }
         }
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getAllOfferEntity().collect {
                 offersAdapter.offers = it
-                offersAdapter.notifyDataSetChanged()
+                withContext(Dispatchers.Main) {
+                    offersAdapter.notifyDataSetChanged()
+                }
             }
         }
     }

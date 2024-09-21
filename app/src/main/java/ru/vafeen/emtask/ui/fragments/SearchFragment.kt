@@ -26,11 +26,13 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-        binding.button.text = vModel.mainButtonText
-        binding.vacanciesListview.setVacanciesAdapterSettings()
-        binding.offersListview.setOffersAdapterSettings()
-        binding.vacanciesScrollview.isVisible = false
-        binding.offersListview.isVisible = false
+        binding.apply {
+            button.text = vModel.mainButtonText
+            vacanciesListview.setVacanciesAdapterSettings()
+            offersListview.setOffersAdapterSettings()
+            vacanciesScrollview.isVisible = false
+            offersListview.isVisible = false
+        }
         vModel.collectDataFromLocalDB { vacanciesSize, offersSize ->
             if (vacanciesSize > 0) {
                 binding.vacanciesScrollview.isVisible = true
@@ -56,31 +58,36 @@ class SearchFragment : Fragment() {
     }
 
     private fun modifyUItoDefault() {
-        binding.searchImage.setImageResource(R.drawable.search)
-        binding.searchVacancyTv.text = "Должность, ключевые слова"
-        binding.offersListview.isVisible = true
-        binding.vacanciesTextview.isVisible = true
-        vModel.displayPreviewVacancies()
-        binding.button.isVisible = true
-        binding.searchSettings.isVisible = false
-        binding.countOfVacancies.isVisible = false
+        binding.apply {
+            searchImage.setImageResource(R.drawable.search)
+            searchVacancyTv.text = "Должность, ключевые слова"
+            offersListview.isVisible = true
+            vacanciesTextview.isVisible = true
+            vModel.displayPreviewVacancies()
+            button.isVisible = true
+            searchSettings.isVisible = false
+            countOfVacancies.isVisible = false
+        }
+
     }
 
     private fun modifyUItoSearch() {
-        binding.searchImage.setImageResource(R.drawable.leftarrowt)
-        binding.searchImage.setOnClickListener {
-            modifyUItoDefault()
+        binding.apply {
+            searchImage.setImageResource(R.drawable.leftarrowt)
+            searchImage.setOnClickListener {
+                modifyUItoDefault()
+            }
+            searchVacancyTv.text = "Должность по подходящим вакансиям"
+            offersListview.isVisible = false
+            vacanciesTextview.isVisible = false
+            button.isVisible = false
+            searchSettings.isVisible = true
+            val countOfVacanciesInt = vModel.vacanciesAdapter.vacancies.size
+            countOfVacancies.text =
+                generateMoreCountOfVacanciesByCount(count = countOfVacanciesInt) { "$countOfVacancies $it" }
+            countOfVacancies.isVisible = true
         }
-        binding.searchVacancyTv.text = "Должность по подходящим вакансиям"
-        binding.offersListview.isVisible = false
-        binding.vacanciesTextview.isVisible = false
         vModel.displayAllVacancies()
-        binding.button.isVisible = false
-        binding.searchSettings.isVisible = true
-        val countOfVacancies = vModel.vacanciesAdapter.vacancies.size
-        binding.countOfVacancies.text =
-            generateMoreCountOfVacanciesByCount(count = countOfVacancies) { "$countOfVacancies $it" }
-        binding.countOfVacancies.isVisible = true
     }
 
 
