@@ -20,7 +20,7 @@ class FavouritesFragmentViewModel @Inject constructor(
     val favouritesAdapter: FavouritesAdapter = FavouritesAdapter(vacationClickListener = this)
 
 
-    fun collectDataFromDB(onShowData: (Boolean) -> Unit) {
+    fun collectDataFromDB(onShowData: (Int) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getAllVacancy().collect { listVacancyEntity ->
                 favouritesAdapter.favourites = listVacancyEntity.filter { vacancyEntity ->
@@ -28,7 +28,7 @@ class FavouritesFragmentViewModel @Inject constructor(
                 }
                 withContext(Dispatchers.Main) {
                     favouritesAdapter.notifyDataSetChanged()
-                    onShowData(favouritesAdapter.favourites.isNotEmpty())
+                    onShowData(favouritesAdapter.favourites.size)
                 }
             }
         }

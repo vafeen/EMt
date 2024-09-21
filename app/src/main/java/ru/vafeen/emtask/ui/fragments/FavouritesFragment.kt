@@ -13,6 +13,7 @@ import ru.vafeen.emtask.databinding.FragmentFavouritesBinding
 import ru.vafeen.emtask.ui.components.modifiers.CustomItemDecoration
 import ru.vafeen.emtask.ui.components.modifiers.CustomLinearLayoutManager
 import ru.vafeen.emtask.ui.components.viewmodels.FavouritesFragmentViewModel
+import ru.vafeen.emtask.ui.utils.generateMoreCountOfVacanciesByCount
 
 @AndroidEntryPoint
 class FavouritesFragment : Fragment() {
@@ -23,8 +24,11 @@ class FavouritesFragment : Fragment() {
     ): View {
         binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         binding.favouritesListview.setFavouritesAdapterSettings()
-        viewModel.collectDataFromDB {
-            binding.numberOfFavourites.text = "тут что-то есть"
+        viewModel.collectDataFromDB { size ->
+            binding.numberOfFavourites.text =
+                generateMoreCountOfVacanciesByCount(count = size) { vacanciesWord ->
+                    "$size $vacanciesWord"
+                }
         }
         return binding.root
     }
