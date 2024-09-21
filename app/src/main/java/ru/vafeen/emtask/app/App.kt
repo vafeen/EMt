@@ -4,6 +4,7 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.vafeen.local_storage.DatabaseRepository
 import ru.vafeen.local_storage.type_converters.OfferToOfferEntityConverter
@@ -28,8 +29,12 @@ class App : Application() {
                 val newOffers = it.offers.map { offer ->
                     OfferToOfferEntityConverter.toOfferEntity(offer = offer)
                 }
-                databaseRepository.insertAllVacancy(*newVacancies)
-                databaseRepository.insertAllOfferEntity(newOffers)
+                if (databaseRepository.getAllVacancy().first()
+                        .isEmpty()
+                ) { // чтобы не происходила перезапись данных
+                    databaseRepository.insertAllVacancy(*newVacancies)
+                    databaseRepository.insertAllOfferEntity(newOffers)
+                }
             }
         }
     }

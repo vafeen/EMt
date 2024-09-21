@@ -23,6 +23,9 @@ class FavouritesFragment : Fragment() {
     ): View {
         binding = FragmentFavouritesBinding.inflate(inflater, container, false)
         binding.favouritesListview.setFavouritesAdapterSettings()
+        viewModel.collectDataFromDB {
+            binding.numberOfFavourites.text = "тут что-то есть"
+        }
         return binding.root
     }
 

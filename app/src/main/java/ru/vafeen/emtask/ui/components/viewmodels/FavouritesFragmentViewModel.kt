@@ -4,31 +4,49 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.components.adapters.FavouritesAdapter
 import ru.vafeen.local_storage.DatabaseRepository
+import ru.vafeen.local_storage.entity.VacancyEntity
 import javax.inject.Inject
 
 @HiltViewModel
 class FavouritesFragmentViewModel @Inject constructor(
     private var databaseRepository: DatabaseRepository
-) : ViewModel() {
+) : ViewModel(), VacationClickListener {
 
-    @Inject
-    lateinit var favouritesAdapter: FavouritesAdapter
+    val favouritesAdapter: FavouritesAdapter = FavouritesAdapter(vacationClickListener = this)
 
-    init {
+
+    fun collectDataFromDB(onShowData: (Boolean) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            val ids = databaseRepository.getAllVacancyID().first().map {
-                it.vacancyID
-            }
             databaseRepository.getAllVacancy().collect { listVacancyEntity ->
                 favouritesAdapter.favourites = listVacancyEntity.filter { vacancyEntity ->
-                    vacancyEntity.id in ids
+                    vacancyEntity.isFavorite
+                }
+                withContext(Dispatchers.Main) {
+                    favouritesAdapter.notifyDataSetChanged()
+                    onShowData(favouritesAdapter.favourites.isNotEmpty())
                 }
             }
         }
     }
-//    здесь будет функция которая будет доставать из бд данные
+
+    override fun onClickAddVacancyToFavouriteByIDListener(
+        vacancyEntity: VacancyEntity
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.insertAllVacancy(vacancyEntity)
+        }
+    }
+
+    override fun onClickRemoveVacancyFromFavouriteByIDListener(
+        vacancyEntity: VacancyEntity
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.insertAllVacancy(vacancyEntity)
+        }
+    }
 }

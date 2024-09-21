@@ -3,16 +3,18 @@ package ru.vafeen.emtask.ui.components.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.vafeen.emtask.R
+import ru.vafeen.emtask.ui.components.VacationClickListener
+import ru.vafeen.emtask.ui.components.adapters.VacanciesAdapter.ViewHolder
 import ru.vafeen.emtask.ui.utils.generateCountOfPeopleByCount
 import ru.vafeen.emtask.ui.utils.generatePublishedDateByLocalDate
 import ru.vafeen.emtask.ui.utils.parseDateFromString
 import ru.vafeen.local_storage.entity.VacancyEntity
-import javax.inject.Inject
 
-class FavouritesAdapter @Inject constructor() :
+class FavouritesAdapter(private val vacationClickListener: VacationClickListener) :
     RecyclerView.Adapter<FavouritesAdapter.ViewHolder>() {
     var favourites: List<VacancyEntity> = emptyList()
 
@@ -23,20 +25,32 @@ class FavouritesAdapter @Inject constructor() :
         private val company: TextView = itemView.findViewById(R.id.company)
         private val experience: TextView = itemView.findViewById(R.id.experience)
         private val publishedDate: TextView = itemView.findViewById(R.id.publishedDate)
+        private val isFavourite: ImageButton = itemView.findViewById(R.id.is_favourite)
 
-
-        fun bind(vacancyEntity: VacancyEntity) {
-            val lookingNumberInt = vacancyEntity.lookingNumber
+        fun bind(vacancy: VacancyEntity, position: Int) {
+            val lookingNumberInt = vacancy.lookingNumber
             lookingNumber.text =
                 if (lookingNumberInt != null) generateCountOfPeopleByCount(count = lookingNumberInt) {
-                    "Сейчас просматривает ${vacancyEntity.lookingNumber} $it"
+                    "Сейчас просматривает ${vacancy.lookingNumber} $it"
                 } else ""
-            title.text = vacancyEntity.title
-            town.text = vacancyEntity.addressTown
-            company.text = vacancyEntity.company
-            experience.text = vacancyEntity.experiencePreviewText
+            title.text = vacancy.title
+            town.text = vacancy.addressTown
+            company.text = vacancy.company
+            experience.text = vacancy.experiencePreviewText
             publishedDate.text =
-                generatePublishedDateByLocalDate(localDate = parseDateFromString(date = vacancyEntity.publishedDate))
+                generatePublishedDateByLocalDate(localDate = parseDateFromString(date = vacancy.publishedDate))
+            isFavourite.setImageResource(
+                if (vacancy.isFavorite) R.drawable.colored_heart else R.drawable.heart
+            )
+            isFavourite.setOnClickListener {
+                if (vacancy.isFavorite)
+                    vacationClickListener.onClickRemoveVacancyFromFavouriteByIDListener(
+                        vacancyEntity = favourites[position].copy(isFavorite = false),
+                    )
+                else vacationClickListener.onClickAddVacancyToFavouriteByIDListener(
+                    vacancyEntity = favourites[position].copy(isFavorite = true),
+                )
+            }
         }
     }
 
@@ -46,8 +60,8 @@ class FavouritesAdapter @Inject constructor() :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val vacancyEntity = favourites[position]
-        holder.bind(vacancyEntity = vacancyEntity)
+        val vacancy = favourites[position]
+        holder.bind(vacancy = vacancy, position = position)
     }
 
     override fun getItemCount(): Int = favourites.size

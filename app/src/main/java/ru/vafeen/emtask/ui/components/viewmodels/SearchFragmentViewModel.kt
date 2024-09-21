@@ -1,17 +1,17 @@
 package ru.vafeen.emtask.ui.components.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.components.adapters.OffersAdapter
 import ru.vafeen.emtask.ui.components.adapters.VacanciesAdapter
 import ru.vafeen.local_storage.DatabaseRepository
 import ru.vafeen.local_storage.entity.VacancyEntity
-import ru.vafeen.local_storage.entity.VacancyIDEntity
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,8 +22,7 @@ class SearchFragmentViewModel @Inject constructor(
     private var allVacanciesAreDisplayed = false
     var mainButtonText = ""
 
-
-    var vacanciesAdapter: VacanciesAdapter = VacanciesAdapter(vacationClickListener = this)
+    val vacanciesAdapter: VacanciesAdapter = VacanciesAdapter(vacationClickListener = this)
 
     init {
         collectDataFromDB()
@@ -52,50 +51,54 @@ class SearchFragmentViewModel @Inject constructor(
     }
 
     fun displayAllVacancies() {
-        viewModelScope.launch(Dispatchers.Main) {
-            vacanciesAdapter.vacancies = databaseRepository.getAllVacancy().first()
-            vacanciesAdapter.notifyDataSetChanged()
-            allVacanciesAreDisplayed = true
+        viewModelScope.launch(Dispatchers.IO) {
+            databaseRepository.getAllVacancy().collect {
+                vacanciesAdapter.vacancies = it
+                withContext(Dispatchers.Main) {
+                    vacanciesAdapter.notifyDataSetChanged()
+                }
+                allVacanciesAreDisplayed = true
+            }
         }
     }
 
 
     fun displayPreviewVacancies() {
         viewModelScope.launch(Dispatchers.IO) {
-            vacanciesAdapter.vacancies = databaseRepository.getAllVacancy().first().let {
-                if (it.size > 2) it.subList(0, 2) else it
+            databaseRepository.getAllVacancy().collect {
+                vacanciesAdapter.vacancies =
+                    if (it.size > 2 && !allVacanciesAreDisplayed) it.subList(0, 2) else it
+                withContext(Dispatchers.Main) {
+                    vacanciesAdapter.notifyDataSetChanged()
+                }
+                Log.d("collect", "displaypreview")
+                allVacanciesAreDisplayed = false
             }
-            vacanciesAdapter.notifyDataSetChanged()
-            allVacanciesAreDisplayed = false
         }
     }
 
     private fun collectDataFromDB() {
         viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.getAllVacancyID().collect {
-                vacanciesAdapter.ids = it
-            }
+//            databaseRepository.getAllVacancyID().collect {
+//                vacanciesAdapter.ids = it
+//            }
         }
     }
 
 
     override fun onClickAddVacancyToFavouriteByIDListener(
         vacancyEntity: VacancyEntity,
-        vacancyIDEntity: VacancyIDEntity
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.insertAllVacancy(vacancyEntity)
-            databaseRepository.insertVacancyID(vacancyIDEntity)
         }
     }
 
     override fun onClickRemoveVacancyFromFavouriteByIDListener(
         vacancyEntity: VacancyEntity,
-        vacancyIDEntity: VacancyIDEntity
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.insertAllVacancy(vacancyEntity)
-            databaseRepository.deleteVacancyID(vacancyIDEntity)
         }
     }
 }

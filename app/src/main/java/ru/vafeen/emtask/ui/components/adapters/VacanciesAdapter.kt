@@ -12,12 +12,10 @@ import ru.vafeen.emtask.ui.utils.generateCountOfPeopleByCount
 import ru.vafeen.emtask.ui.utils.generatePublishedDateByLocalDate
 import ru.vafeen.emtask.ui.utils.parseDateFromString
 import ru.vafeen.local_storage.entity.VacancyEntity
-import ru.vafeen.local_storage.entity.VacancyIDEntity
 
 class VacanciesAdapter(private val vacationClickListener: VacationClickListener) :
     RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
     var vacancies: List<VacancyEntity> = mutableListOf()
-    var ids: List<VacancyIDEntity> = emptyList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val lookingNumber: TextView = itemView.findViewById(R.id.looking_number_tv)
@@ -40,18 +38,16 @@ class VacanciesAdapter(private val vacationClickListener: VacationClickListener)
             experience.text = vacancy.experiencePreviewText
             publishedDate.text =
                 generatePublishedDateByLocalDate(localDate = parseDateFromString(date = vacancy.publishedDate))
-            isFavourite.setImageResource(if (vacancy.id in ids.map { it.vacancyID }) R.drawable.colored_heart else R.drawable.heart)
+            isFavourite.setImageResource(if (vacancy.isFavorite) R.drawable.colored_heart else R.drawable.heart)
             isFavourite.setOnClickListener {
-                val newISFavourite = !vacancy.isFavorite
-                if (newISFavourite)
-                    vacationClickListener.onClickAddVacancyToFavouriteByIDListener(
-                        vacancyEntity = vacancies[position].copy(isFavorite = newISFavourite),
-                        vacancyIDEntity = VacancyIDEntity(vacancyID = vacancy.id)
+                if (vacancy.isFavorite)
+                    vacationClickListener.onClickRemoveVacancyFromFavouriteByIDListener(
+                        vacancyEntity = vacancies[position].copy(isFavorite = false),
                     )
-                else vacationClickListener.onClickRemoveVacancyFromFavouriteByIDListener(
-                    vacancyEntity = vacancies[position].copy(isFavorite = newISFavourite),
-                    vacancyIDEntity = VacancyIDEntity(vacancyID = vacancy.id)
+                else vacationClickListener.onClickAddVacancyToFavouriteByIDListener(
+                    vacancyEntity = vacancies[position].copy(isFavorite = true),
                 )
+
             }
         }
     }
