@@ -29,29 +29,30 @@ object VacancyToVacancyEntityConverter {
         questions = vacancy.questions
     )
 
-    fun toVacancy(vacancyEntity: VacancyEntity) = Vacancy(
-        id = vacancyEntity.id,
-        lookingNumber = vacancyEntity.lookingNumber,
-        title = vacancyEntity.title,
-        address = Address(
-            town = vacancyEntity.addressTown, street = vacancyEntity.addressStreet,
-            house = vacancyEntity.addressHouse
-        ),
-        company = vacancyEntity.company,
-        experience = Experience(
-            previewText = vacancyEntity.experiencePreviewText,
-            text = vacancyEntity.experienceText
-        ),
-        publishedDate = vacancyEntity.publishedDate,
-        isFavorite = vacancyEntity.isFavorite,
-        salary = Salary(
-            full = vacancyEntity.salaryFull,
-            short = vacancyEntity.salaryShort
-        ),
-        schedules = vacancyEntity.schedules,
-        appliedNumber = vacancyEntity.appliedNumber,
-        description = vacancyEntity.description,
-        responsibilities = vacancyEntity.responsibilities,
-        questions = vacancyEntity.questions
-    )
+    fun toVacancy(vacancyEntity: VacancyEntity) =
+        Vacancy(
+            id = vacancyEntity.id,
+            lookingNumber = vacancyEntity.lookingNumber,
+            title = vacancyEntity.title,
+            address = Address(
+                town = vacancyEntity.addressTown, street = vacancyEntity.addressStreet,
+                house = vacancyEntity.addressHouse
+            ),
+            company = vacancyEntity.company,
+            experience = Experience(
+                previewText = vacancyEntity.experiencePreviewText,
+                text = vacancyEntity.experienceText
+            ),
+            publishedDate = vacancyEntity.publishedDate,
+            isFavorite = vacancyEntity.isFavorite,
+            salary = Salary(
+                full = vacancyEntity.salaryFull,
+                short = vacancyEntity.salaryShort
+            ),
+            schedules = vacancyEntity.schedules,
+            appliedNumber = vacancyEntity.appliedNumber,
+            description = vacancyEntity.description,
+            responsibilities = vacancyEntity.responsibilities,
+            questions = vacancyEntity.questions
+        )
 }

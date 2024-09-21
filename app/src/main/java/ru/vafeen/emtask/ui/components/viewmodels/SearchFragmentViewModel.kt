@@ -94,7 +94,7 @@ class SearchFragmentViewModel @Inject constructor(
         vacancyIDEntity: VacancyIDEntity
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.deleteVacancy(vacancyEntity)
+            databaseRepository.insertAllVacancy(vacancyEntity)
             databaseRepository.deleteVacancyID(vacancyIDEntity)
         }
     }

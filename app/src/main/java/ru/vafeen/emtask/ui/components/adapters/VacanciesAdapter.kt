@@ -53,7 +53,6 @@ class VacanciesAdapter(private val vacationClickListener: VacationClickListener)
                     vacancyIDEntity = VacancyIDEntity(vacancyID = vacancy.id)
                 )
             }
-
         }
     }
 
