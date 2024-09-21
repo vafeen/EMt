@@ -31,7 +31,7 @@ class SearchFragmentViewModel @Inject constructor(
 
     @Inject
     lateinit var offersAdapter: OffersAdapter
-    fun collectDataFromGDrive(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
+    fun collectDataFromLocalDB(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
             databaseRepository.getAllVacancy().collect {
                 if (allVacanciesAreDisplayed) {
@@ -42,8 +42,12 @@ class SearchFragmentViewModel @Inject constructor(
                 vacanciesAdapter.notifyDataSetChanged()
                 modifyButtonText(it.size, offersAdapter.offers.size)
             }
-//            offersAdapter.offers = it.offers
-//            offersAdapter.notifyDataSetChanged()
+        }
+        viewModelScope.launch(Dispatchers.Main) {
+            databaseRepository.getAllOfferEntity().collect {
+                offersAdapter.offers = it
+                offersAdapter.notifyDataSetChanged()
+            }
         }
     }
 

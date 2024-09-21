@@ -33,7 +33,7 @@ class SearchFragment : Fragment() {
         binding.offersListview.setOffersAdapterSettings()
         binding.vacanciesScrollview.isVisible = false
         binding.offersListview.isVisible = false
-        viewModel.collectDataFromGDrive { vacanciesSize, offersSize ->
+        viewModel.collectDataFromLocalDB { vacanciesSize, offersSize ->
             if (vacanciesSize > 0) {
                 binding.vacanciesScrollview.isVisible = true
                 viewModel.mainButtonText =

@@ -1,6 +1,7 @@
 package ru.vafeen.local_storage
 
 import kotlinx.coroutines.flow.Flow
+import ru.vafeen.local_storage.entity.OfferEntity
 import ru.vafeen.local_storage.entity.VacancyEntity
 import ru.vafeen.local_storage.entity.VacancyIDEntity
 import javax.inject.Inject
@@ -10,6 +11,7 @@ class DatabaseRepository @Inject constructor(
 ) {
     private val vacancyIDEntityDao = database.vacancyIDEntityDao()
     private val vacancyEntityDao = database.vacancyEntityDao()
+    private val offerEntityDao = database.offerEntityDao()
     suspend fun insertVacancyID(vararg ids: VacancyIDEntity) = vacancyIDEntityDao.insertAll(*ids)
     suspend fun deleteVacancyID(vararg ids: VacancyIDEntity) = vacancyIDEntityDao.delete(*ids)
     fun getAllVacancyID(): Flow<List<VacancyIDEntity>> = vacancyIDEntityDao.getAll()
@@ -22,5 +24,11 @@ class DatabaseRepository @Inject constructor(
 
     fun getAllVacancy(): Flow<List<VacancyEntity>> = vacancyEntityDao.getAll()
 
+    suspend fun insertAllOfferEntity(offerEntities: List<OfferEntity>) =
+        offerEntityDao.insertAll(offerEntities)
 
+    suspend fun deleteOfferEntity(offerEntities: List<OfferEntity>) =
+        offerEntityDao.delete(offerEntities)
+
+    fun getAllOfferEntity(): Flow<List<OfferEntity>> = offerEntityDao.getAll()
 }

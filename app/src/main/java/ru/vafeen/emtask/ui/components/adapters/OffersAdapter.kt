@@ -10,13 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.vafeen.emtask.R
-import ru.vafeen.network.response.Offer
+import ru.vafeen.local_storage.entity.OfferEntity
 import javax.inject.Inject
 
 class OffersAdapter @Inject constructor(
     @ApplicationContext val context: Context
 ) : RecyclerView.Adapter<OffersAdapter.ViewHolder>() {
-    var offers: List<Offer> = emptyList()
+    var offers: List<OfferEntity> = emptyList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val id: ImageView = itemView.findViewById(R.id.icon)
@@ -24,7 +24,7 @@ class OffersAdapter @Inject constructor(
         private val button: TextView = itemView.findViewById(R.id.button)
 
 
-        fun bind(offer: Offer) {
+        fun bind(offer: OfferEntity) {
             when (offer.id) {
                 "near_vacancies" -> {
                     id.background.setTint(ContextCompat.getColor(context, R.color.dark_blue))
@@ -47,7 +47,7 @@ class OffersAdapter @Inject constructor(
             }
 
             title.text = offer.title
-            button.text = offer.button?.text ?: ""
+            button.text = offer.buttonText ?: ""
         }
     }
 

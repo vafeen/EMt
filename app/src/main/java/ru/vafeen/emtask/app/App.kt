@@ -1,12 +1,12 @@
 package ru.vafeen.emtask.app
 
 import android.app.Application
-import android.util.Log
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.vafeen.local_storage.DatabaseRepository
+import ru.vafeen.local_storage.type_converters.OfferToOfferEntityConverter
 import ru.vafeen.local_storage.type_converters.VacancyToVacancyEntityConverter
 import ru.vafeen.network.NetworkRepository
 import javax.inject.Inject
@@ -23,10 +23,13 @@ class App : Application() {
         CoroutineScope(Dispatchers.IO).launch {
             networkRepository.getJsonData().body()?.let {
                 val newVacancies = it.vacancies.map { vacancy ->
-                    Log.d("vacancy", "vacancy = $vacancy")
                     VacancyToVacancyEntityConverter.toVacancyEntity(vacancy)
                 }.toTypedArray()
+                val newOffers = it.offers.map { offer ->
+                    OfferToOfferEntityConverter.toOfferEntity(offer = offer)
+                }
                 databaseRepository.insertAllVacancy(*newVacancies)
+                databaseRepository.insertAllOfferEntity(newOffers)
             }
         }
     }
