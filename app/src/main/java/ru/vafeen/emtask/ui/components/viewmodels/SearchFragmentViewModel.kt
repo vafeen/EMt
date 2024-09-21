@@ -1,6 +1,5 @@
 package ru.vafeen.emtask.ui.components.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +16,6 @@ import ru.vafeen.local_storage.entity.VacancyEntity
 
 
 class SearchFragmentViewModel(
-    val context: Context,
     private val databaseRepository: DatabaseRepository,
 ) : ViewModel(), VacationClickListener {
 
