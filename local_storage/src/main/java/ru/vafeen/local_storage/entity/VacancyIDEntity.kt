@@ -1,10 +1,10 @@
-package ru.vafeen.local_storage
+package ru.vafeen.local_storage.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class VacancyID(
+data class VacancyIDEntity(
     @PrimaryKey(autoGenerate = true) val uid: Int = 0,
     val vacancyID: String,
 )

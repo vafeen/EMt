@@ -1,28 +1,25 @@
 package ru.vafeen.emtask.ui.components.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.components.adapters.OffersAdapter
 import ru.vafeen.emtask.ui.components.adapters.VacanciesAdapter
 import ru.vafeen.local_storage.DatabaseRepository
-import ru.vafeen.local_storage.VacancyID
-import ru.vafeen.network.NetworkRepository
-import ru.vafeen.network.response.VacancyData
+import ru.vafeen.local_storage.entity.VacancyEntity
+import ru.vafeen.local_storage.entity.VacancyIDEntity
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchFragmentViewModel @Inject constructor(
-    private val networkRepository: NetworkRepository,
     private val databaseRepository: DatabaseRepository,
 ) : ViewModel(), VacationClickListener {
 
-    private var vacancyData: VacancyData? = null
-    var allVacanciesAreDisplayed = false
+    private var allVacanciesAreDisplayed = false
     var mainButtonText = ""
 
 
@@ -34,14 +31,38 @@ class SearchFragmentViewModel @Inject constructor(
 
     @Inject
     lateinit var offersAdapter: OffersAdapter
-    fun collectDataFromGDrive(modifyButtonText: (VacancyData) -> Unit) {
+    fun collectDataFromGDrive(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
-            vacancyData = networkRepository.getJsonData().body()
-            vacancyData?.let {
-                displayPreviewVacancies()
-                displayAllOffers()
-                modifyButtonText(it)
+            databaseRepository.getAllVacancy().collect {
+                if (allVacanciesAreDisplayed) {
+                    vacanciesAdapter.vacancies = it
+                } else {
+                    vacanciesAdapter.vacancies = if (it.size > 2) it.subList(0, 2) else it
+                }
+                vacanciesAdapter.notifyDataSetChanged()
+                modifyButtonText(it.size, offersAdapter.offers.size)
             }
+//            offersAdapter.offers = it.offers
+//            offersAdapter.notifyDataSetChanged()
+        }
+    }
+
+    fun displayAllVacancies() {
+        viewModelScope.launch(Dispatchers.Main) {
+            vacanciesAdapter.vacancies = databaseRepository.getAllVacancy().first()
+            vacanciesAdapter.notifyDataSetChanged()
+            allVacanciesAreDisplayed = true
+        }
+    }
+
+
+    fun displayPreviewVacancies() {
+        viewModelScope.launch(Dispatchers.IO) {
+            vacanciesAdapter.vacancies = databaseRepository.getAllVacancy().first().let {
+                if (it.size > 2) it.subList(0, 2) else it
+            }
+            vacanciesAdapter.notifyDataSetChanged()
+            allVacanciesAreDisplayed = false
         }
     }
 
@@ -49,43 +70,28 @@ class SearchFragmentViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getAllVacancyID().collect {
                 vacanciesAdapter.ids = it
-                Log.d("id", "$it")
             }
         }
     }
 
-    private fun displayAllOffers() {
-        vacancyData?.let {
-            offersAdapter.offers = it.offers
-            offersAdapter.notifyDataSetChanged()
-        }
-    }
 
-    fun displayAllVacancies() {
-        vacancyData?.let {
-            vacanciesAdapter.vacancies = it.vacancies.toMutableList()
-            vacanciesAdapter.notifyDataSetChanged()
-            allVacanciesAreDisplayed = true
-        }
-    }
-
-    fun displayPreviewVacancies() {
-        vacancyData?.let {
-            vacanciesAdapter.vacancies = it.vacancies.subList(0, 2).toMutableList()
-            vacanciesAdapter.notifyDataSetChanged()
-            allVacanciesAreDisplayed = false
-        }
-    }
-
-    override fun onClickAddVacancyToFavouriteByIDListener(vacancyID: VacancyID) {
+    override fun onClickAddVacancyToFavouriteByIDListener(
+        vacancyEntity: VacancyEntity,
+        vacancyIDEntity: VacancyIDEntity
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.insertVacancyID(vacancyID)
+            databaseRepository.insertAllVacancy(vacancyEntity)
+            databaseRepository.insertVacancyID(vacancyIDEntity)
         }
     }
 
-    override fun onClickRemoveVacancyFromFavouriteByIDListener(vacancyID: VacancyID) {
+    override fun onClickRemoveVacancyFromFavouriteByIDListener(
+        vacancyEntity: VacancyEntity,
+        vacancyIDEntity: VacancyIDEntity
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            databaseRepository.deleteVacancyID(vacancyID)
+            databaseRepository.deleteVacancy(vacancyEntity)
+            databaseRepository.deleteVacancyID(vacancyIDEntity)
         }
     }
 }

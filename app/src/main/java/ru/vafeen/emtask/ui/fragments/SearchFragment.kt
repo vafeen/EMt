@@ -28,22 +28,21 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
-
         binding.button.text = viewModel.mainButtonText
         binding.vacanciesListview.setVacanciesAdapterSettings()
         binding.offersListview.setOffersAdapterSettings()
         binding.vacanciesScrollview.isVisible = false
         binding.offersListview.isVisible = false
-        viewModel.collectDataFromGDrive {
-            if (it.vacancies.isNotEmpty()) {
+        viewModel.collectDataFromGDrive { vacanciesSize, offersSize ->
+            if (vacanciesSize > 0) {
                 binding.vacanciesScrollview.isVisible = true
                 viewModel.mainButtonText =
-                    generateMoreCountOfVacanciesByCount(count = it.vacancies.size) { str ->
-                        "Еще ${it.vacancies.size} $str"
+                    generateMoreCountOfVacanciesByCount(count = vacanciesSize) { str ->
+                        "Еще $vacanciesSize $str"
                     }
                 binding.button.text = viewModel.mainButtonText
             }
-            if (it.offers.isNotEmpty()) {
+            if (offersSize > 0) {
                 binding.offersListview.isVisible = true
             }
         }

@@ -12,7 +12,7 @@ data class Vacancy(
     val salary: Salary,
     val schedules: List<String>,
     val appliedNumber: Int? = null,
-    val description: String,
+    val description: String? = null,
     val responsibilities: String,
     val questions: List<String>
 )

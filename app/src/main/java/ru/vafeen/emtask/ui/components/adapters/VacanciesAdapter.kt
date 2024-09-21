@@ -11,13 +11,13 @@ import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.utils.generateCountOfPeopleByCount
 import ru.vafeen.emtask.ui.utils.generatePublishedDateByLocalDate
 import ru.vafeen.emtask.ui.utils.parseDateFromString
-import ru.vafeen.local_storage.VacancyID
-import ru.vafeen.network.response.Vacancy
+import ru.vafeen.local_storage.entity.VacancyEntity
+import ru.vafeen.local_storage.entity.VacancyIDEntity
 
 class VacanciesAdapter(private val vacationClickListener: VacationClickListener) :
     RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
-    var vacancies: MutableList<Vacancy> = mutableListOf()
-    var ids: List<VacancyID> = emptyList()
+    var vacancies: List<VacancyEntity> = mutableListOf()
+    var ids: List<VacancyIDEntity> = emptyList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val lookingNumber: TextView = itemView.findViewById(R.id.looking_number_tv)
@@ -28,31 +28,32 @@ class VacanciesAdapter(private val vacationClickListener: VacationClickListener)
         private val publishedDate: TextView = itemView.findViewById(R.id.publishedDate)
         private val isFavourite: ImageButton = itemView.findViewById(R.id.is_favourite)
 
-        fun bind(vacancy: Vacancy, position: Int) {
+        fun bind(vacancy: VacancyEntity, position: Int) {
             val lookingNumberInt = vacancy.lookingNumber
             lookingNumber.text =
                 if (lookingNumberInt != null) generateCountOfPeopleByCount(count = lookingNumberInt) {
                     "Сейчас просматривает ${vacancy.lookingNumber} $it"
                 } else ""
             title.text = vacancy.title
-            town.text = vacancy.address.town
+            town.text = vacancy.addressTown
             company.text = vacancy.company
-            experience.text = vacancy.experience.previewText
+            experience.text = vacancy.experiencePreviewText
             publishedDate.text =
                 generatePublishedDateByLocalDate(localDate = parseDateFromString(date = vacancy.publishedDate))
             isFavourite.setImageResource(if (vacancy.id in ids.map { it.vacancyID }) R.drawable.colored_heart else R.drawable.heart)
             isFavourite.setOnClickListener {
                 val newISFavourite = !vacancy.isFavorite
-                vacancies[position] = vacancy.copy(isFavorite = newISFavourite)
                 if (newISFavourite)
                     vacationClickListener.onClickAddVacancyToFavouriteByIDListener(
-                        VacancyID(vacancyID = vacancy.id)
+                        vacancyEntity = vacancies[position].copy(isFavorite = newISFavourite),
+                        vacancyIDEntity = VacancyIDEntity(vacancyID = vacancy.id)
                     )
                 else vacationClickListener.onClickRemoveVacancyFromFavouriteByIDListener(
-                    VacancyID(vacancyID = vacancy.id)
+                    vacancyEntity = vacancies[position].copy(isFavorite = newISFavourite),
+                    vacancyIDEntity = VacancyIDEntity(vacancyID = vacancy.id)
                 )
-                this@VacanciesAdapter.notifyItemChanged(position)
             }
+
         }
     }
 
