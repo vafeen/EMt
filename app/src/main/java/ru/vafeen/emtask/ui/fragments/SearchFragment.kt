@@ -34,23 +34,25 @@ class SearchFragment : Fragment() {
             offersListview.isVisible = false
         }
         vModel.collectDataFromLocalDB { vacanciesSize, offersSize ->
+            if (offersSize > 0) {
+                binding.offersListview.isVisible = true
+            }
             if (vacanciesSize > 0) {
+                binding.progressBar.isVisible = false
                 binding.vacanciesScrollview.isVisible = true
                 vModel.mainButtonText =
                     generateMoreCountOfVacanciesByCount(count = vacanciesSize) { str ->
                         "Еще $vacanciesSize $str"
                     }
+                binding.vacanciesTextview.isVisible = true
                 binding.button.text = vModel.mainButtonText
-            }
-            if (offersSize > 0) {
-                binding.offersListview.isVisible = true
+                binding.button.isVisible = !vModel.allVacanciesAreDisplayed
             }
         }
         binding.button.setOnClickListener {
-            vModel.displayAllVacancies()
+            vModel.displayVacancies(all = true)
             binding.button.isVisible = false
         }
-        modifyUItoDefault()
         binding.searchVacancyTv.setOnClickListener {
             modifyUItoSearch()
         }
@@ -63,12 +65,11 @@ class SearchFragment : Fragment() {
             searchVacancyTv.text = "Должность, ключевые слова"
             offersListview.isVisible = true
             vacanciesTextview.isVisible = true
-            vModel.displayPreviewVacancies()
+            vModel.displayVacancies(all = false)
             button.isVisible = true
             searchSettings.isVisible = false
             countOfVacancies.isVisible = false
         }
-
     }
 
     private fun modifyUItoSearch() {
@@ -84,10 +85,10 @@ class SearchFragment : Fragment() {
             searchSettings.isVisible = true
             val countOfVacanciesInt = vModel.vacanciesAdapter.vacancies.size
             countOfVacancies.text =
-                generateMoreCountOfVacanciesByCount(count = countOfVacanciesInt) { "$countOfVacancies $it" }
+                generateMoreCountOfVacanciesByCount(count = countOfVacanciesInt) { "$countOfVacanciesInt $it" }
             countOfVacancies.isVisible = true
         }
-        vModel.displayAllVacancies()
+        vModel.displayVacancies(all = true)
     }
 
 

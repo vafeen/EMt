@@ -51,7 +51,7 @@ class VacanciesAdapter(private val vacationClickListener: VacationClickListener)
                 else vacationClickListener.onClickAddVacancyToFavouriteByIDListener(
                     vacancyEntity = vacancies[position].copy(isFavorite = true),
                 )
-
+                this@VacanciesAdapter.notifyItemChanged(position)
             }
         }
     }

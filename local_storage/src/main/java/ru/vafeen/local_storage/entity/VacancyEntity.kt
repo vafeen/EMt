@@ -24,4 +24,10 @@ data class VacancyEntity(
     val description: String? = null,
     val responsibilities: String,
     val questions: List<String>
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is VacancyEntity) return false
+        return isFavorite == other.isFavorite
+    }
+}
