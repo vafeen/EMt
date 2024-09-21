@@ -79,6 +79,7 @@
 
     <LinearLayout
         android:id="@+id/search_settings"
+        android:visibility="gone"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -107,6 +108,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/offers_listview"
+        android:visibility="gone"
         android:layout_height="120dp"
         android:layout_marginTop="16dp"
         android:layout_width="match_parent"
@@ -115,6 +117,7 @@
     <TextView
         android:id="@+id/vacancies_textview"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginTop="16dp"
         android:layout_width="wrap_content"
         android:text="Вакансии для вас"
@@ -125,6 +128,7 @@
 
     <ScrollView
         android:id="@+id/vacancies_scrollview"
+        android:visibility="gone"
         android:layout_weight="1.0"
         android:layout_marginTop="16dp"
         android:scrollbars="none"
@@ -142,7 +146,6 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/vacancies_listview"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="24dp"
                 android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
@@ -151,6 +154,7 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button"
                 android:backgroundTint="@color/blue"
+                android:layout_marginTop="24dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
                 android:layout_width="match_parent"
@@ -162,4 +166,11 @@
         </LinearLayout>
     </ScrollView>
 
+    <ProgressBar
+        android:indeterminateTint="@color/text_color"
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center"
+        android:layout_width="45dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content" />
 </LinearLayout>
