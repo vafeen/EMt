@@ -14,6 +14,8 @@
 
         <TextView
             android:id="@+id/looking_number_tv"
+            android:visibility="gone"
+            android:paddingBottom="10dp"
             android:layout_width="wrap_content"
             android:textColor="@color/green"
             android:layout_height="wrap_content"
@@ -23,32 +25,31 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_marginTop="27dp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/looking_number_tv"
             tools:text="IU/UX designer" />
 
         <TextView
             android:id="@+id/town"
+            android:layout_marginTop="10dp"
             android:textColor="@color/white"
-            android:layout_marginTop="56dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
             tools:text="Минск" />
 
         <TextView
             android:id="@+id/company"
-            android:layout_marginTop="79dp"
+            android:layout_marginTop="4dp"
             android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/town"
             tools:text="Мобирикс" />
 
         <ImageView
@@ -62,12 +63,12 @@
 
         <ImageView
             android:id="@+id/briefcase_icon"
-            android:layout_marginTop="104.5dp"
+            android:layout_marginTop="10dp"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/briefcase"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/company" />
 
         <TextView
             android:id="@+id/experience"
@@ -84,10 +85,10 @@
             android:id="@+id/publishedDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="131dp"
+            android:layout_marginTop="10dp"
             android:textColor="@color/text_color"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/experience"
             tools:text="Опубликован 20 февраля" />
 
         <ImageButton

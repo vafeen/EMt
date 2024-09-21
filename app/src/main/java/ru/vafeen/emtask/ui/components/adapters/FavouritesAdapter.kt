@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import ru.vafeen.emtask.R
 import ru.vafeen.emtask.ui.components.VacationClickListener
@@ -33,6 +34,7 @@ class FavouritesAdapter(private val vacationClickListener: VacationClickListener
                 if (lookingNumberInt != null) generateCountOfPeopleByCount(count = lookingNumberInt) {
                     "Сейчас просматривает ${vacancy.lookingNumber} $it"
                 } else ""
+            lookingNumber.isVisible = lookingNumber.text.isNotEmpty()
             title.text = vacancy.title
             town.text = vacancy.addressTown
             company.text = vacancy.company
