@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
-    id("com.google.dagger.hilt.android")
+//    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -45,7 +45,10 @@ dependencies {
     //retrofit
     api(libs.retrofit)
     api(libs.converter.gson)
-    //hilt
-    api(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+//    //hilt
+//    api(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+    //koin
+    api(libs.koin.core)
+    api(libs.koin.android)
 }

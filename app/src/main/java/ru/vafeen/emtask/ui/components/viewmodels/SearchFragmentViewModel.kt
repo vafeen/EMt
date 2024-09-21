@@ -3,19 +3,17 @@ package ru.vafeen.emtask.ui.components.viewmodels
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.java.KoinJavaComponent.inject
 import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.components.adapters.OffersAdapter
 import ru.vafeen.emtask.ui.components.adapters.VacanciesAdapter
 import ru.vafeen.local_storage.DatabaseRepository
 import ru.vafeen.local_storage.entity.VacancyEntity
-import javax.inject.Inject
 
-@HiltViewModel
-class SearchFragmentViewModel @Inject constructor(
+class SearchFragmentViewModel(
     private val databaseRepository: DatabaseRepository,
 ) : ViewModel(), VacationClickListener {
 
@@ -28,8 +26,7 @@ class SearchFragmentViewModel @Inject constructor(
         collectDataFromDB()
     }
 
-    @Inject
-    lateinit var offersAdapter: OffersAdapter
+    val offersAdapter: OffersAdapter by inject(clazz = OffersAdapter::class.java)
     fun collectDataFromLocalDB(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
             databaseRepository.getAllVacancy().collect {

@@ -42,11 +42,14 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     // room
-    implementation(libs.androidx.room.runtime)
+    api(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.common)
-    implementation(libs.androidx.room.ktx)
-    //hilt
-    api(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    api(libs.androidx.room.common)
+    api(libs.androidx.room.ktx)
+//    //hilt
+//    api(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+    //koin
+    api(libs.koin.core)
+    api(libs.koin.android)
 }

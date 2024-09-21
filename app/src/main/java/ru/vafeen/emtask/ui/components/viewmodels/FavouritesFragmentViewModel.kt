@@ -2,7 +2,6 @@ package ru.vafeen.emtask.ui.components.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -10,10 +9,9 @@ import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.components.adapters.FavouritesAdapter
 import ru.vafeen.local_storage.DatabaseRepository
 import ru.vafeen.local_storage.entity.VacancyEntity
-import javax.inject.Inject
 
-@HiltViewModel
-class FavouritesFragmentViewModel @Inject constructor(
+
+class FavouritesFragmentViewModel(
     private var databaseRepository: DatabaseRepository
 ) : ViewModel(), VacationClickListener {
 

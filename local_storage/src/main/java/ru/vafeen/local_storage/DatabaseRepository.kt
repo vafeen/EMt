@@ -3,11 +3,8 @@ package ru.vafeen.local_storage
 import kotlinx.coroutines.flow.Flow
 import ru.vafeen.local_storage.entity.OfferEntity
 import ru.vafeen.local_storage.entity.VacancyEntity
-import javax.inject.Inject
 
-class DatabaseRepository @Inject constructor(
-    private val database: AppDatabase
-) {
+class DatabaseRepository(database: AppDatabase) {
     private val vacancyEntityDao = database.vacancyEntityDao()
     private val offerEntityDao = database.offerEntityDao()
 

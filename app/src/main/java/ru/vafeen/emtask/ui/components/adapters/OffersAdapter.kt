@@ -8,14 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import dagger.hilt.android.qualifiers.ApplicationContext
 import ru.vafeen.emtask.R
 import ru.vafeen.local_storage.entity.OfferEntity
-import javax.inject.Inject
 
-class OffersAdapter @Inject constructor(
-    @ApplicationContext val context: Context
-) : RecyclerView.Adapter<OffersAdapter.ViewHolder>() {
+class OffersAdapter(val context: Context) : RecyclerView.Adapter<OffersAdapter.ViewHolder>() {
     var offers: List<OfferEntity> = emptyList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
