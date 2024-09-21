@@ -32,17 +32,15 @@ class App : Application() {
 
         CoroutineScope(Dispatchers.IO).launch {
             networkRepository.getJsonData().body()?.let {
-                val newVacancies = it.vacancies.map { vacancy ->
-                    VacancyToVacancyEntityConverter.toVacancyEntity(vacancy)
-                }.toTypedArray()
-                val newOffers = it.offers.map { offer ->
-                    OfferToOfferEntityConverter.toOfferEntity(offer = offer)
-                }
                 if (databaseRepository.getAllVacancy().first()
                         .isEmpty()
                 ) { // чтобы не происходила перезапись данных
-                    databaseRepository.insertAllVacancy(*newVacancies)
-                    databaseRepository.insertAllOfferEntity(newOffers)
+                    databaseRepository.insertAllVacancy(*it.vacancies.map { vacancy ->
+                        VacancyToVacancyEntityConverter.toVacancyEntity(vacancy)
+                    }.toTypedArray())
+                    databaseRepository.insertAllOfferEntity(it.offers.map { offer ->
+                        OfferToOfferEntityConverter.toOfferEntity(offer = offer)
+                    })
                 }
             }
         }

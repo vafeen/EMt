@@ -1,11 +1,13 @@
 package ru.vafeen.emtask.ui.components.viewmodels
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
 import ru.vafeen.emtask.ui.components.VacationClickListener
 import ru.vafeen.emtask.ui.components.adapters.OffersAdapter
@@ -14,19 +16,22 @@ import ru.vafeen.local_storage.DatabaseRepository
 import ru.vafeen.local_storage.entity.VacancyEntity
 
 class SearchFragmentViewModel(
+    val context: Context,
     private val databaseRepository: DatabaseRepository,
 ) : ViewModel(), VacationClickListener {
 
     private var allVacanciesAreDisplayed = false
     var mainButtonText = ""
-
     val vacanciesAdapter: VacanciesAdapter = VacanciesAdapter(vacationClickListener = this)
 
     init {
         collectDataFromDB()
     }
 
-    val offersAdapter: OffersAdapter by inject(clazz = OffersAdapter::class.java)
+    val offersAdapter: OffersAdapter by inject(clazz = OffersAdapter::class.java) {
+        parametersOf(this)
+    }
+
     fun collectDataFromLocalDB(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
             databaseRepository.getAllVacancy().collect {

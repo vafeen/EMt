@@ -10,8 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import ru.vafeen.emtask.R
 import ru.vafeen.local_storage.entity.OfferEntity
+import ru.vafeen.local_storage.utils.openLink
 
-class OffersAdapter(val context: Context) : RecyclerView.Adapter<OffersAdapter.ViewHolder>() {
+class OffersAdapter(val context: Context) :
+    RecyclerView.Adapter<OffersAdapter.ViewHolder>() {
     var offers: List<OfferEntity> = emptyList()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,7 +22,10 @@ class OffersAdapter(val context: Context) : RecyclerView.Adapter<OffersAdapter.V
         private val button: TextView = itemView.findViewById(R.id.button)
 
 
-        fun bind(offer: OfferEntity) {
+        fun bind(context: Context, offer: OfferEntity) {
+            itemView.setOnClickListener {
+                openLink(context, offer.link)
+            }
             when (offer.id) {
                 "near_vacancies" -> {
                     id.background.setTint(ContextCompat.getColor(context, R.color.dark_blue))
@@ -44,6 +49,12 @@ class OffersAdapter(val context: Context) : RecyclerView.Adapter<OffersAdapter.V
 
             title.text = offer.title
             button.text = offer.buttonText ?: ""
+            offer.link
+            if (button.text.isNotEmpty()) {
+                button.setOnClickListener {
+
+                }
+            }
         }
     }
 
@@ -53,7 +64,7 @@ class OffersAdapter(val context: Context) : RecyclerView.Adapter<OffersAdapter.V
     }
 
     override fun onBindViewHolder(holder: OffersAdapter.ViewHolder, position: Int) {
-        holder.bind(offer = offers[position])
+        holder.bind(context = holder.itemView.context, offer = offers[position])
     }
 
     override fun getItemCount(): Int = offers.size
