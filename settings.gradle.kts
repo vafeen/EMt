@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "EMTask"
 include(":app")
- 
+include(":presentation")
