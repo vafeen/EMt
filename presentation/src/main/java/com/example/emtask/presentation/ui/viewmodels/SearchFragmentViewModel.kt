@@ -26,6 +26,7 @@ class SearchFragmentViewModel(
     var mainButtonText = ""
     val vacanciesAdapter: VacanciesAdapter = VacanciesAdapter(vacationClickListener = this)
     var vacanciesRealSize = 0
+    var isSearchInProcess = false
 
     val offersAdapter: OffersAdapter by inject(clazz = OffersAdapter::class.java) {
         parametersOf(this)
@@ -38,7 +39,7 @@ class SearchFragmentViewModel(
                     vacanciesAdapter.vacancies = if (allVacanciesAreDisplayed) {
                         it
                     } else {
-                        if (it.size > 2) it.subList(0, 2) else it
+                        if (it.size >= 3) it.subList(0, 3) else it
                     }
                     Log.d("vacancies", it.joinToString {
                         it.toString() + "\n"
@@ -60,14 +61,14 @@ class SearchFragmentViewModel(
     }
 
     fun displayVacancies(all: Boolean) {
+        allVacanciesAreDisplayed = all
         viewModelScope.launch(appCoroutineDispatchers.io) {
             val vacancies = databaseRepositoryImpl.getAllVacancy().first()
             withContext(appCoroutineDispatchers.main) {
                 vacanciesAdapter.vacancies =
-                    if (vacancies.size > 2 && !all) vacancies.subList(0, 2) else vacancies
+                    if (vacancies.size >= 3 && !all) vacancies.subList(0, 3) else vacancies
                 vacanciesAdapter.notifyDataSetChanged()
             }
-            allVacanciesAreDisplayed = all
         }
     }
 

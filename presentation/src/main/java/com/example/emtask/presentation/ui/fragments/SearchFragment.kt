@@ -1,9 +1,11 @@
 package com.example.emtask.presentation.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.forEach
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,49 +38,68 @@ class SearchFragment : Fragment() {
             offersListview.itemAnimator = null
         }
         vModel.collectDataFromLocalDB { vacanciesSize, offersSize ->
-            if (offersSize > 0) {
-                binding.offersListview.isVisible = true
-            }
-            if (vacanciesSize > 0) {
-                binding.progressBar.isVisible = false
-                binding.vacanciesScrollview.isVisible = true
-                vModel.mainButtonText =
-                    generateMoreCountOfVacanciesByCount(count = vacanciesSize) { str ->
-                        "Еще $vacanciesSize $str"
-                    }
-                binding.vacanciesTextview.isVisible = true
-                binding.button.text = vModel.mainButtonText
-                binding.button.isVisible = !vModel.allVacanciesAreDisplayed
+            if (vModel.isSearchInProcess) {
+                modifyUItoSearch(vacanciesSize = vacanciesSize, offersSize = offersSize)
+            } else {
+                modifyUItoDefault(vacanciesSize = vacanciesSize, offersSize = offersSize)
             }
         }
+
         binding.button.setOnClickListener {
-            binding.button.isVisible = false
             vModel.displayVacancies(all = true)
+            binding.button.isVisible = !vModel.allVacanciesAreDisplayed
         }
+
         binding.searchVacancyTv.setOnClickListener {
-            modifyUItoSearch()
+            modifyUItoSearch(
+                offersSize = vModel.offersAdapter.offers.size,
+                vacanciesSize = vModel.vacanciesAdapter.vacancies.size
+            )
         }
         return binding.root
     }
 
-    private fun modifyUItoDefault() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        vModel.displayVacancies(false)
+        binding.vacanciesListview.scrollToPosition(0)
+    }
+
+    private fun modifyUItoDefault(offersSize: Int, vacanciesSize: Int) {
+        vModel.isSearchInProcess = false
         binding.apply {
+            vacanciesScrollview.isVisible = true
             searchImage.setImageResource(R.drawable.search)
             searchVacancyTv.text = "Должность, ключевые слова"
-            offersListview.isVisible = true
             vacanciesTextview.isVisible = true
-            vModel.displayVacancies(all = false)
-            button.isVisible = true
+            vModel.displayVacancies(all = vModel.allVacanciesAreDisplayed)
             searchSettings.isVisible = false
             countOfVacancies.isVisible = false
         }
+        if (offersSize > 0) {
+            binding.offersListview.isVisible = true
+        }
+        if (vacanciesSize > 0) {
+            binding.progressBar.isVisible = false
+            binding.vacanciesScrollview.isVisible = true
+            vModel.mainButtonText =
+                generateMoreCountOfVacanciesByCount(count = vModel.vacanciesRealSize) { str ->
+                    "Еще $vacanciesSize $str"
+                }
+            binding.button.text = vModel.mainButtonText
+            binding.button.isVisible = !vModel.allVacanciesAreDisplayed
+        }
     }
 
-    private fun modifyUItoSearch() {
+    private fun modifyUItoSearch(vacanciesSize: Int, offersSize: Int) {
+        vModel.isSearchInProcess = true
+        binding.progressBar.isVisible = false
         binding.apply {
+            vacanciesScrollview.isVisible = true
             searchImage.setImageResource(R.drawable.leftarrowt)
             searchImage.setOnClickListener {
-                modifyUItoDefault()
+                vModel.allVacanciesAreDisplayed = false
+                modifyUItoDefault(offersSize = offersSize, vacanciesSize = vacanciesSize)
             }
             searchVacancyTv.text = "Должность по подходящим вакансиям"
             offersListview.isVisible = false
@@ -91,7 +112,6 @@ class SearchFragment : Fragment() {
         }
         vModel.displayVacancies(all = true)
     }
-
 
     private fun RecyclerView.setVacanciesAdapterSettings() {
         layoutManager =

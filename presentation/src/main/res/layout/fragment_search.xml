@@ -126,7 +126,7 @@
         app:layout_constraintStart_toStartOf="@+id/offers_listview"
         app:layout_constraintTop_toBottomOf="@id/offers_listview" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/vacancies_scrollview"
         android:visibility="gone"
         android:layout_weight="1.0"
@@ -165,7 +165,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="Еще х вакансий" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
         android:indeterminateTint="@color/text_color"
