@@ -7,6 +7,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.emtask.presentation.R
 import com.example.emtask.presentation.databinding.ActivityMainBinding
+import com.example.emtask.presentation.ui.ui_utils.setNavigationBarColor
+import com.example.emtask.presentation.ui.ui_utils.setStatusBarColor
 import com.example.emtask.presentation.ui.viewmodels.MainActivityViewModel
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavView.setupWithNavController(navController)
+
+        setStatusBarColor(window, this, R.color.black, R.color.black)
+        setNavigationBarColor(window, this, R.color.black, R.color.black)
 
         lifecycleScope.launch(vm.appCoroutineDispatchers.main) {
             vm.countOfFavourites.collect {
