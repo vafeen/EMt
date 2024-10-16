@@ -40,4 +40,13 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    //room
+    api(libs.androidx.room.runtime)
+    api(libs.androidx.room.common)
+    api(libs.androidx.room.ktx)
+    //koin
+    api(libs.koin.android)
+    //retrofit
+    api(libs.retrofit)
+    api(libs.converter.gson)
 }
