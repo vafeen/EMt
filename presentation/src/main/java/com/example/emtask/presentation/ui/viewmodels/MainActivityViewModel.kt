@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
-    private val databaseRepositoryImpl: DatabaseRepository,
-    private val networkRepositoryImpl: NetworkRepository,
+    private val databaseRepository: DatabaseRepository,
+    private val networkRepository: NetworkRepository,
     val appCoroutineDispatchers: AppCoroutineDispatchers,
 ) : ViewModel() {
     private val _countOfFavourites = MutableSharedFlow<Int>(0)
@@ -22,21 +22,21 @@ class MainActivityViewModel(
 
     init {
         viewModelScope.launch(appCoroutineDispatchers.main) {
-            databaseRepositoryImpl.getAllVacancy().collect { list ->
+            databaseRepository.getAllVacancy().collect { list ->
                 _countOfFavourites.emit(list.filter { it.isFavorite }.size)
             }
         }
     }
 
     suspend fun loadData() {
-        networkRepositoryImpl.getJsonData().body()?.let {
-            if (databaseRepositoryImpl.getAllVacancy().first()
+        networkRepository.getJsonData().body()?.let {
+            if (databaseRepository.getAllVacancy().first()
                     .isEmpty()
             ) { // чтобы не происходила перезапись данных
-                databaseRepositoryImpl.insertAllVacancy(*it.vacancies.map { vacancy ->
+                databaseRepository.insertAllVacancy(*it.vacancies.map { vacancy ->
                     VacancyToVacancyEntityConverter.toVacancyEntity(vacancy)
                 }.toTypedArray())
-                databaseRepositoryImpl.insertAllOfferEntity(it.offers.map { offer ->
+                databaseRepository.insertAllOfferEntity(it.offers.map { offer ->
                     OfferToOfferEntityConverter.toOfferEntity(offer = offer)
                 })
             }

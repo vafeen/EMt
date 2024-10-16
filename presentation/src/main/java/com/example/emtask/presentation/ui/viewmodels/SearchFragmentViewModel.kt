@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.emtask.data.database.DatabaseRepository
 import com.example.emtask.data.database.entity.VacancyEntity
-import com.example.emtask.domain.repository.DatabaseRepositoryImpl
 import com.example.emtask.presentation.noui.AppCoroutineDispatchers
 import com.example.emtask.presentation.ui.VacationClickListener
 import com.example.emtask.presentation.ui.components.adapters.OffersAdapter
@@ -18,7 +17,7 @@ import org.koin.java.KoinJavaComponent.inject
 
 
 class SearchFragmentViewModel(
-    private val databaseRepositoryImpl: DatabaseRepository,
+    private val databaseRepository: DatabaseRepository,
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
 ) : ViewModel(), VacationClickListener {
 
@@ -34,7 +33,7 @@ class SearchFragmentViewModel(
 
     fun collectDataFromLocalDB(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
         viewModelScope.launch(appCoroutineDispatchers.io) {
-            databaseRepositoryImpl.getAllVacancy().collect {
+            databaseRepository.getAllVacancy().collect {
                 withContext(appCoroutineDispatchers.main) {
                     vacanciesAdapter.vacancies = if (allVacanciesAreDisplayed) {
                         it
@@ -51,7 +50,7 @@ class SearchFragmentViewModel(
         }
 
         viewModelScope.launch(appCoroutineDispatchers.io) {
-            databaseRepositoryImpl.getAllOfferEntity().collect {
+            databaseRepository.getAllOfferEntity().collect {
                 withContext(appCoroutineDispatchers.main) {
                     offersAdapter.offers = it
                     modifyButtonText(vacanciesRealSize, offersAdapter.offers.size)
@@ -63,7 +62,7 @@ class SearchFragmentViewModel(
     fun displayVacancies(all: Boolean) {
         allVacanciesAreDisplayed = all
         viewModelScope.launch(appCoroutineDispatchers.io) {
-            val vacancies = databaseRepositoryImpl.getAllVacancy().first()
+            val vacancies = databaseRepository.getAllVacancy().first()
             withContext(appCoroutineDispatchers.main) {
                 vacanciesAdapter.vacancies =
                     if (vacancies.size >= 3 && !all) vacancies.subList(0, 3) else vacancies
@@ -74,7 +73,7 @@ class SearchFragmentViewModel(
 
     override fun onClickUpdateVacancy(vacancyEntity: VacancyEntity) {
         viewModelScope.launch(appCoroutineDispatchers.io) {
-            databaseRepositoryImpl.insertAllVacancy(vacancyEntity)
+            databaseRepository.insertAllVacancy(vacancyEntity)
         }
     }
 }
