@@ -1,9 +1,8 @@
 package com.example.emtask
 
 import android.app.Application
-import com.example.emtask.data.network.di.koinNetworkDIModule
+import com.example.emtask.data.di.koinDataDIModule
 import com.example.emtask.domain.di.repositoryModule
-import com.example.emtask.domain.di.useCaseModule
 import com.example.emtask.presentation.noui.di.koinServicesModule
 import com.example.emtask.presentation.noui.di.koinVMModule
 import org.koin.android.ext.koin.androidContext
@@ -16,8 +15,7 @@ class App : Application() {
             androidContext(this@App)
             modules(
                 koinVMModule,
-                koinNetworkDIModule,
-                useCaseModule,
+                koinDataDIModule,
                 repositoryModule,
                 koinServicesModule
             )

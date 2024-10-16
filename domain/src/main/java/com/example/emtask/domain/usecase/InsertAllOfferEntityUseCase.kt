@@ -1,12 +1,12 @@
 package com.example.emtask.domain.usecase
 
-import com.example.emtask.data.database.DatabaseRepository
+import com.example.emtask.data.database.AppDatabase
 import com.example.emtask.data.database.entity.OfferEntity
 
 class InsertAllOfferEntityUseCase(
-    private val databaseRepository: DatabaseRepository
+    private val db: AppDatabase
 ) {
-    suspend operator fun invoke(offerEntity: List<OfferEntity>) {
-        databaseRepository.insertAllOfferEntity(offerEntities = offerEntity)
+    suspend operator fun invoke(offerEntities: List<OfferEntity>) {
+        db.offerEntityDao().insertAll(offerEntities = offerEntities)
     }
 }

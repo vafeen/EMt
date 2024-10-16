@@ -1,12 +1,12 @@
 package com.example.emtask.domain.usecase
 
-import com.example.emtask.data.database.DatabaseRepository
+import com.example.emtask.data.database.AppDatabase
 import com.example.emtask.data.database.entity.OfferEntity
 
 class DeleteOfferEntityUseCase(
-    private val databaseRepository: DatabaseRepository
+    private val db: AppDatabase
 ) {
     suspend operator fun invoke(offerEntities: List<OfferEntity>) {
-        databaseRepository.deleteOfferEntity(offerEntities = offerEntities)
+        db.offerEntityDao().delete(offerEntities = offerEntities)
     }
 }
