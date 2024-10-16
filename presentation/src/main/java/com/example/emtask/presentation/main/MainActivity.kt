@@ -27,5 +27,26 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavView.setupWithNavController(navController)
+
+        lifecycleScope.launch(vm.appCoroutineDispatchers.main) {
+            vm.countOfFavourites.collect {
+                updateBadgeIcon(it)
+            }
+        }
     }
+
+    private fun updateBadgeIcon(count: Int) {
+        val bottomNavigationView = binding.bottomNavView
+        val menuItemId = R.id.navigation_favourites
+
+        if (count > 0) {
+            bottomNavigationView.getOrCreateBadge(menuItemId).apply {
+                isVisible = true
+                number = count
+            }
+        } else {
+            bottomNavigationView.removeBadge(menuItemId)
+        }
+    }
+
 }
