@@ -1,4 +1,4 @@
-package com.example.emtask.presentation.fragments
+package com.example.emtask.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.example.emtask.presentation.fragments.SearchFragment"
+        android:name="com.example.emtask.presentation.ui.fragments.SearchFragment"
         android:label="title_home"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_favourites"
-        android:name="com.example.emtask.presentation.fragments.FavouritesFragment"
+        android:name="com.example.emtask.presentation.ui.fragments.FavouritesFragment"
         android:label="title_dashboard"
         tools:layout="@layout/fragment_favourites" />
 
     <fragment
         android:id="@+id/navigation_responses"
-        android:name="com.example.emtask.presentation.fragments.ResponsesFragment"
+        android:name="com.example.emtask.presentation.ui.fragments.ResponsesFragment"
         android:label="title_dashboard"
         tools:layout="@layout/fragment_responses" />
 
     <fragment
         android:id="@+id/navigation_messages"
-        android:name="com.example.emtask.presentation.fragments.MessagesFragment"
+        android:name="com.example.emtask.presentation.ui.fragments.MessagesFragment"
         android:label="title_dashboard"
         tools:layout="@layout/fragment_messages" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.emtask.presentation.fragments.ProfileFragment"
+        android:name="com.example.emtask.presentation.ui.fragments.ProfileFragment"
         android:label="title_dashboard"
         tools:layout="@layout/fragment_profile" />
 

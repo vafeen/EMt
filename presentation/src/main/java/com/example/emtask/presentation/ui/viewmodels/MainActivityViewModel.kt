@@ -1,4 +1,4 @@
-package com.example.emtask.presentation.viewmodels
+package com.example.emtask.presentation.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 

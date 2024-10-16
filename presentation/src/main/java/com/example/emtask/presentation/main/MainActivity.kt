@@ -6,7 +6,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.emtask.presentation.R
 import com.example.emtask.presentation.databinding.ActivityMainBinding
-import com.example.emtask.presentation.viewmodels.MainActivityViewModel
+import com.example.emtask.presentation.ui.viewmodels.MainActivityViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
