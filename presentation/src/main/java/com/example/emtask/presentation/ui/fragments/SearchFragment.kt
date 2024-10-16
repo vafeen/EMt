@@ -17,7 +17,6 @@ import com.example.emtask.presentation.ui.viewmodels.SearchFragmentViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val vModel: SearchFragmentViewModel by viewModel()
@@ -86,9 +85,8 @@ class SearchFragment : Fragment() {
             vacanciesTextview.isVisible = false
             button.isVisible = false
             searchSettings.isVisible = true
-            val countOfVacanciesInt = vModel.vacanciesAdapter.vacancies.size
             countOfVacancies.text =
-                generateMoreCountOfVacanciesByCount(count = countOfVacanciesInt) { "$countOfVacanciesInt $it" }
+                generateMoreCountOfVacanciesByCount(count = vModel.vacanciesRealSize) { "${vModel.vacanciesRealSize} $it" }
             countOfVacancies.isVisible = true
         }
         vModel.displayVacancies(all = true)

@@ -25,7 +25,7 @@ class SearchFragmentViewModel(
     var allVacanciesAreDisplayed = false
     var mainButtonText = ""
     val vacanciesAdapter: VacanciesAdapter = VacanciesAdapter(vacationClickListener = this)
-    private var vacanciesRealSize = 0
+    var vacanciesRealSize = 0
 
     val offersAdapter: OffersAdapter by inject(clazz = OffersAdapter::class.java) {
         parametersOf(this)
