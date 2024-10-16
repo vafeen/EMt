@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("com.google.devtools.ksp") version "2.0.21-1.0.25"
 }
 
 android {
@@ -42,7 +43,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     //room
     api(libs.androidx.room.runtime)
-    api(libs.androidx.room.common)
+    annotationProcessor(libs.androidx.room.room.compiler)
+    ksp(libs.androidx.room.room.compiler)
     api(libs.androidx.room.ktx)
     //koin
     api(libs.koin.android)
