@@ -4,6 +4,7 @@ import com.example.emtask.domain.usecase.DeleteOfferEntityUseCase
 import com.example.emtask.domain.usecase.DeleteVacancyUseCase
 import com.example.emtask.domain.usecase.GetAllOfferEntityUseCase
 import com.example.emtask.domain.usecase.GetAllVacancyUseCase
+import com.example.emtask.domain.usecase.GetVacancyDataUseCase
 import com.example.emtask.domain.usecase.InsertAllOfferEntityUseCase
 import com.example.emtask.domain.usecase.InsertAllVacancyUseCase
 import org.koin.core.module.dsl.singleOf
@@ -14,6 +15,7 @@ val useCaseModule = module {
     singleOf(::DeleteVacancyUseCase)
     singleOf(::GetAllOfferEntityUseCase)
     singleOf(::GetAllVacancyUseCase)
+    singleOf(::GetVacancyDataUseCase)
     singleOf(::InsertAllOfferEntityUseCase)
     singleOf(::InsertAllVacancyUseCase)
 }
