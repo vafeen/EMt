@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface DatabaseRepository {
-    suspend fun insertAllVacancy(vararg vacancies: VacancyEntity)
-    suspend fun deleteVacancy(vararg vacancies: VacancyEntity)
+    suspend fun insertAllVacancy(vararg vacancyEntity: VacancyEntity)
+    suspend fun deleteVacancy(vararg vacancyEntity: VacancyEntity)
     fun getAllVacancy(): Flow<List<VacancyEntity>>
 
     suspend fun insertAllOfferEntity(offerEntities: List<OfferEntity>)

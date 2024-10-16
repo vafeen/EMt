@@ -19,16 +19,16 @@ class DatabaseRepositoryImpl(
     private val deleteOfferEntityUseCase: DeleteOfferEntityUseCase,
     private val getAllOfferEntityUseCase: GetAllOfferEntityUseCase,
 ) : DatabaseRepository {
-    override suspend fun insertAllVacancy(vararg vacancies: VacancyEntity) =
-        insertAllVacancyUseCase(vacancies = vacancies)
+    override suspend fun insertAllVacancy(vararg vacancyEntity: VacancyEntity) =
+        insertAllVacancyUseCase(vacancyEntity = vacancyEntity)
 
-    override suspend fun deleteVacancy(vararg vacancies: VacancyEntity) =
-        deleteVacancyUseCase(vacancies = vacancies)
+    override suspend fun deleteVacancy(vararg vacancyEntity: VacancyEntity) =
+        deleteVacancyUseCase(vacancyEntity = vacancyEntity)
 
     override fun getAllVacancy(): Flow<List<VacancyEntity>> = getAllVacancyUseCase()
 
     override suspend fun insertAllOfferEntity(offerEntities: List<OfferEntity>) =
-        insertAllOfferEntityUseCase(offerEntity = offerEntities)
+        insertAllOfferEntityUseCase(offerEntities = offerEntities)
 
     override suspend fun deleteOfferEntity(offerEntities: List<OfferEntity>) =
         deleteOfferEntityUseCase(offerEntities = offerEntities)
