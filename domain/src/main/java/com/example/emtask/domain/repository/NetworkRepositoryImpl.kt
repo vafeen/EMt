@@ -6,7 +6,7 @@ import com.example.emtask.domain.usecase.GetVacancyDataUseCase
 import retrofit2.Response
 
 class NetworkRepositoryImpl(
-    private val vacancyDataUseCase: GetVacancyDataUseCase
+    private val getVacancyDataUseCase: GetVacancyDataUseCase
 ) : NetworkRepository {
-    override suspend fun getJsonData(): Response<VacancyData> = vacancyDataUseCase()
+    override suspend fun getJsonData(): Response<VacancyData> = getVacancyDataUseCase()
 }

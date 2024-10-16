@@ -12,12 +12,9 @@ lifecycleLivedataKtx = "2.8.6"
 material = "1.12.0"
 navigationFragmentKtx = "2.8.2"
 # ROOM
-roomCommon = "2.6.1"
-roomKtx = "2.6.1"
+roomRuntime = "2.6.1"
 # retrofit
 retrofitVersion = "2.11.0"
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
 
 
 [libraries]
@@ -34,10 +31,9 @@ junit = { module = "junit:junit", version.ref = "junit" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koinAndroid" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 # ROOM
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCommon" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCommon" }
-androidx-room-common = { group = "androidx.room", name = "room-common", version.ref = "roomCommon" }
-androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 # retrofit
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
