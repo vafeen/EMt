@@ -1,6 +1,8 @@
 package com.example.emtask.presentation.ui.components.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,33 +36,27 @@ internal class OffersAdapter :
             itemView.setOnClickListener {
                 openLink(context, offer.link)
             }
+            title.text = offer.title
+            button.text = offer.buttonText ?: ""
             when (offer.id) {
                 "near_vacancies" -> {
-                    id.background.setTint(ContextCompat.getColor(context, R.color.dark_blue))
-                    null
+                    Pair(null, R.color.dark_blue)
                 }
 
                 "level_up_resume" -> {
-                    id.background.setTint(ContextCompat.getColor(context, R.color.dark_green))
-                    R.drawable.star
+                    Pair(R.drawable.star, R.color.dark_green)
                 }
 
                 "temporary_job" -> {
-                    id.background.setTint(ContextCompat.getColor(context, R.color.dark_green))
-                    R.drawable.list_with_done
+                    Pair(R.drawable.list_with_done, R.color.dark_green)
                 }
 
                 else -> null
-            }?.let {
-                id.setImageResource(it)
-            }
-
-            title.text = offer.title
-            button.text = offer.buttonText ?: ""
-            offer.link
-            if (button.text.isNotEmpty()) {
-                button.setOnClickListener {
-
+            }?.let { pair ->
+                pair.first?.let { id.setImageResource(it) }
+                id.background.setTint(ContextCompat.getColor(context, pair.second))
+                if (button.text.isNotEmpty()) {
+                    button.setTextColor(ContextCompat.getColor(context, pair.second))
                 }
             }
         }
