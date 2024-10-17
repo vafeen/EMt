@@ -31,7 +31,7 @@ class SearchFragmentViewModel(
         parametersOf(this)
     }
 
-    fun collectDataFromLocalDB(modifyButtonText: (vacanciesSize: Int, offersSize: Int) -> Unit) {
+    fun collectDataFromLocalDB(modifyUI: (vacanciesSize: Int, offersSize: Int) -> Unit) {
         viewModelScope.launch(appCoroutineDispatchers.io) {
             databaseRepository.getAllVacancy().collect {
                 withContext(appCoroutineDispatchers.main) {
@@ -40,11 +40,8 @@ class SearchFragmentViewModel(
                     } else {
                         if (it.size >= 3) it.subList(0, 3) else it
                     }
-                    Log.d("vacancies", it.joinToString {
-                        it.toString() + "\n"
-                    })
                     vacanciesRealSize = it.size
-                    modifyButtonText(vacanciesRealSize, offersAdapter.offers.size)
+                    modifyUI(vacanciesRealSize, offersAdapter.offers.size)
                 }
             }
         }
@@ -53,7 +50,7 @@ class SearchFragmentViewModel(
             databaseRepository.getAllOfferEntity().collect {
                 withContext(appCoroutineDispatchers.main) {
                     offersAdapter.offers = it
-                    modifyButtonText(vacanciesRealSize, offersAdapter.offers.size)
+                    modifyUI(vacanciesRealSize, offersAdapter.offers.size)
                 }
             }
         }
