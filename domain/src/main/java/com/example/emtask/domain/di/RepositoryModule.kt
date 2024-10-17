@@ -15,33 +15,21 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    // Регистрация зависимостей для DatabaseRepositoryImpl
-    single { InsertAllVacancyUseCase(get()) }
-    single { DeleteVacancyUseCase(get()) }
-    single { GetAllVacancyUseCase(get()) }
-    single { InsertAllOfferEntityUseCase(get()) }
-    single { DeleteOfferEntityUseCase(get()) }
-    single { GetAllOfferEntityUseCase(get()) }
-    single { GetVacancyDataUseCase(get()) }
-//    singleOf(::DeleteOfferEntityUseCase)
-//    singleOf(::DeleteVacancyUseCase)
-//    singleOf(::GetAllOfferEntityUseCase)
-//    singleOf(::GetAllVacancyUseCase)
-//    singleOf(::GetVacancyDataUseCase)
-//    singleOf(::InsertAllOfferEntityUseCase)
-//    singleOf(::InsertAllVacancyUseCase)
-
+    singleOf(::InsertAllVacancyUseCase)
+    singleOf(::DeleteVacancyUseCase)
+    singleOf(::GetAllVacancyUseCase)
+    singleOf(::InsertAllOfferEntityUseCase)
+    singleOf(::DeleteOfferEntityUseCase)
+    singleOf(::GetAllOfferEntityUseCase)
+    singleOf(::GetVacancyDataUseCase)
+    singleOf(::DatabaseRepositoryImpl)
+    singleOf(::NetworkRepositoryImpl)
     single<DatabaseRepository> {
-        DatabaseRepositoryImpl(
-            insertAllVacancyUseCase = get(),
-            deleteVacancyUseCase = get(),
-            getAllVacancyUseCase = get(),
-            insertAllOfferEntityUseCase = get(),
-            deleteOfferEntityUseCase = get(),
-            getAllOfferEntityUseCase = get()
-        )
+        val databaseRepositoryImpl: DatabaseRepositoryImpl by inject<DatabaseRepositoryImpl>()
+        databaseRepositoryImpl
     }
     single<NetworkRepository> {
-        NetworkRepositoryImpl(getVacancyDataUseCase = get())
+        val networkRepositoryImpl: NetworkRepositoryImpl by inject<NetworkRepositoryImpl>()
+        networkRepositoryImpl
     }
 }
