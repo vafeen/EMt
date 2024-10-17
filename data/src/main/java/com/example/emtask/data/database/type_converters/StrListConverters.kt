@@ -3,7 +3,7 @@ package com.example.emtask.data.database.type_converters
 import androidx.room.TypeConverter
 
 
-object StrListConverters {
+internal object StrListConverters {
     @TypeConverter
     fun toString(value: List<String>?): String? {
         return value?.joinToString { it }

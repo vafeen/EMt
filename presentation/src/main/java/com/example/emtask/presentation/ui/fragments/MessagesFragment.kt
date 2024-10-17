@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.emtask.presentation.databinding.FragmentMessagesBinding
 
 
-class MessagesFragment : Fragment(){
+internal class MessagesFragment : Fragment(){
     private lateinit var binding: FragmentMessagesBinding
     override fun onCreateView(
         inflater: LayoutInflater,

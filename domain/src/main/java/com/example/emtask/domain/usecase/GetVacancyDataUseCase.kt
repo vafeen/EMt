@@ -4,7 +4,7 @@ import com.example.emtask.data.network.GDriveService
 import com.example.emtask.data.network.response.VacancyData
 import retrofit2.Response
 
-class GetVacancyDataUseCase(
+internal class GetVacancyDataUseCase(
     private val gDriveService: GDriveService
 ) {
     suspend operator fun invoke(): Response<VacancyData> = gDriveService.getJsonData()

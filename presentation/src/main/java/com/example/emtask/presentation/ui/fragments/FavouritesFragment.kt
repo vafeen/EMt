@@ -14,7 +14,7 @@ import com.example.emtask.presentation.ui.components.modifiers.CustomLinearLayou
 import com.example.emtask.presentation.ui.viewmodels.FavouritesFragmentViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class FavouritesFragment : Fragment() {
+internal class FavouritesFragment : Fragment() {
     private lateinit var binding: FragmentFavouritesBinding
     private val vModel: FavouritesFragmentViewModel by viewModel()
     override fun onCreateView(

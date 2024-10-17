@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
-class MainActivityViewModel(
+internal class MainActivityViewModel(
     private val databaseRepository: DatabaseRepository,
     private val networkRepository: NetworkRepository,
     val appCoroutineDispatchers: AppCoroutineDispatchers,

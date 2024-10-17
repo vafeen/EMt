@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.emtask.presentation.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment() {
+internal class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     override fun onCreateView(
         inflater: LayoutInflater,

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.emtask.presentation.databinding.FragmentResponsesBinding
 
-class ResponsesFragment : Fragment() {
+internal class ResponsesFragment : Fragment() {
     private lateinit var binding: FragmentResponsesBinding
     override fun onCreateView(
         inflater: LayoutInflater,

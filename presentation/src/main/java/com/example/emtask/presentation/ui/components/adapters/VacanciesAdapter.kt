@@ -16,7 +16,7 @@ import com.example.emtask.presentation.noui.utils.generatePublishedDateByLocalDa
 import com.example.emtask.presentation.noui.utils.parseDateFromString
 import com.example.emtask.presentation.ui.VacationClickListener
 
-class VacanciesAdapter(private val vacationClickListener: VacationClickListener) :
+internal class VacanciesAdapter(private val vacationClickListener: VacationClickListener) :
     RecyclerView.Adapter<VacanciesAdapter.ViewHolder>() {
     var vacancies: List<VacancyEntity> = listOf()
         set(value) {

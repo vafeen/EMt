@@ -3,7 +3,7 @@ package com.example.emtask.presentation.ui.components.diffUtil
 import androidx.recyclerview.widget.DiffUtil
 import com.example.emtask.data.database.entity.OfferEntity
 
-class OffersDiffCallback(
+internal class OffersDiffCallback(
     private val oldList: List<OfferEntity>,
     private val newList: List<OfferEntity>,
 ) : DiffUtil.Callback() {

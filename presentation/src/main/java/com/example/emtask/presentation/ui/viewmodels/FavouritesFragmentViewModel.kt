@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class FavouritesFragmentViewModel(
+internal class FavouritesFragmentViewModel(
     private var databaseRepository: DatabaseRepository,
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
 ) : ViewModel(), VacationClickListener {

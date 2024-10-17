@@ -4,7 +4,7 @@ import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class CustomItemDecoration(
+internal class CustomItemDecoration(
     private val space: Int,
     private val orientation: CustomItemDecorationOrientation
 ) : RecyclerView.ItemDecoration() {

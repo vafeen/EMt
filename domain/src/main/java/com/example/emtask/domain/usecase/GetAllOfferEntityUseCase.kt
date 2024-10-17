@@ -5,7 +5,7 @@ import com.example.emtask.data.database.DatabaseRepository
 import com.example.emtask.data.database.entity.OfferEntity
 import kotlinx.coroutines.flow.Flow
 
-class GetAllOfferEntityUseCase(
+internal class GetAllOfferEntityUseCase(
     private val db: AppDatabase
 ) {
     operator fun invoke(): Flow<List<OfferEntity>> = db.offerEntityDao().getAll()

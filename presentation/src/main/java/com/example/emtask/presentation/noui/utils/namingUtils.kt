@@ -4,7 +4,7 @@ import java.time.LocalDate
 import java.time.Month
 
 
-fun generatePublishedDateByLocalDate(localDate: LocalDate): String =
+internal fun generatePublishedDateByLocalDate(localDate: LocalDate): String =
     "Опубликовано ${localDate.dayOfMonth} ${
         when (localDate.month) {
             Month.JANUARY -> "января"
@@ -23,7 +23,7 @@ fun generatePublishedDateByLocalDate(localDate: LocalDate): String =
         }
     }"
 
-fun <T> generateMoreCountOfVacanciesByCount(count: Int, addVacanciesWord: (String) -> T) =
+internal fun <T> generateMoreCountOfVacanciesByCount(count: Int, addVacanciesWord: (String) -> T) =
     when {
         count in 11..19 -> addVacanciesWord("вакансий")
         count % 10 == 1 -> addVacanciesWord("вакансия")
@@ -31,7 +31,7 @@ fun <T> generateMoreCountOfVacanciesByCount(count: Int, addVacanciesWord: (Strin
         else -> addVacanciesWord("вакансий")
     }
 
-fun <T> generateCountOfPeopleByCount(count: Int, addPeopleWord: (String) -> T) =
+internal fun <T> generateCountOfPeopleByCount(count: Int, addPeopleWord: (String) -> T) =
     when {
         count % 10 in 2..4 -> addPeopleWord("человека")
         else -> addPeopleWord("человек")

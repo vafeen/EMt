@@ -5,7 +5,7 @@ import android.content.res.Configuration
 import android.view.Window
 import androidx.core.content.ContextCompat
 
-fun setStatusBarColor(
+internal fun setStatusBarColor(
     window: Window,
     context: Context,
     statusBarColorLight: Int,
@@ -21,7 +21,7 @@ fun setStatusBarColor(
     )
 }
 
-fun setNavigationBarColor(
+internal fun setNavigationBarColor(
     window: Window,
     context: Context,
     navigationBarColorLight: Int,

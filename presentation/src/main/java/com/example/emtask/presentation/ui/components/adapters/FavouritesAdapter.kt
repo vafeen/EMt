@@ -14,7 +14,7 @@ import com.example.emtask.presentation.noui.utils.generateCountOfPeopleByCount
 import com.example.emtask.presentation.noui.utils.generatePublishedDateByLocalDate
 import com.example.emtask.presentation.noui.utils.parseDateFromString
 
-class FavouritesAdapter(private val vacationClickListener: VacationClickListener) :
+internal class FavouritesAdapter(private val vacationClickListener: VacationClickListener) :
     RecyclerView.Adapter<FavouritesAdapter.ViewHolder>() {
     var favourites: List<VacancyEntity> = emptyList()
 

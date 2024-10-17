@@ -15,7 +15,7 @@ import com.example.emtask.presentation.R
 import com.example.emtask.presentation.ui.components.diffUtil.OffersDiffCallback
 
 
-class OffersAdapter(val context: Context) :
+internal class OffersAdapter :
     RecyclerView.Adapter<OffersAdapter.ViewHolder>() {
     var offers: List<OfferEntity> = emptyList()
         set(value) {

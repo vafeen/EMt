@@ -1,6 +1,6 @@
 package com.example.emtask.data.network
 
-object GDriveServiceLink {
+internal object GDriveServiceLink {
     const val BASE_LINK = "https://drive.usercontent.google.com/"
 
     object EndPoint {

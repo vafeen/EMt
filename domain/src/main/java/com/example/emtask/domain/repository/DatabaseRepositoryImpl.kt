@@ -11,7 +11,7 @@ import com.example.emtask.domain.usecase.InsertAllOfferEntityUseCase
 import com.example.emtask.domain.usecase.InsertAllVacancyUseCase
 import kotlinx.coroutines.flow.Flow
 
-class DatabaseRepositoryImpl(
+internal class DatabaseRepositoryImpl(
     private val insertAllVacancyUseCase: InsertAllVacancyUseCase,
     private val deleteVacancyUseCase: DeleteVacancyUseCase,
     private val getAllVacancyUseCase: GetAllVacancyUseCase,

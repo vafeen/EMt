@@ -16,7 +16,7 @@ import org.koin.core.parameter.parametersOf
 import org.koin.java.KoinJavaComponent.inject
 
 
-class SearchFragmentViewModel(
+internal class SearchFragmentViewModel(
     private val databaseRepository: DatabaseRepository,
     private val appCoroutineDispatchers: AppCoroutineDispatchers,
 ) : ViewModel(), VacationClickListener {

@@ -19,7 +19,7 @@ import com.example.emtask.presentation.ui.viewmodels.SearchFragmentViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
-class SearchFragment : Fragment() {
+internal class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private val vModel: SearchFragmentViewModel by viewModel()
     override fun onCreateView(

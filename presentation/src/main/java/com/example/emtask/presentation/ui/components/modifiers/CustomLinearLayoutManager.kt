@@ -3,7 +3,7 @@ package com.example.emtask.presentation.ui.components.modifiers
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
 
-class CustomLinearLayoutManager(
+internal class CustomLinearLayoutManager(
     context: Context,
     orientation: Int,
     reverseLayout: Boolean,
