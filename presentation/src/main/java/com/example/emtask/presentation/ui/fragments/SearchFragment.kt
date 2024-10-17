@@ -32,8 +32,6 @@ class SearchFragment : Fragment() {
             button.text = vModel.mainButtonText
             vacanciesListview.setVacanciesAdapterSettings()
             offersListview.setOffersAdapterSettings()
-            vacanciesScrollview.isVisible = false
-            offersListview.isVisible = false
             vacanciesListview.itemAnimator = null
             offersListview.itemAnimator = null
         }
@@ -68,7 +66,6 @@ class SearchFragment : Fragment() {
     private fun modifyUItoDefault(offersSize: Int, vacanciesSize: Int) {
         vModel.isSearchInProcess = false
         binding.apply {
-            vacanciesScrollview.isVisible = true
             searchImage.setImageResource(R.drawable.search)
             searchVacancyTv.text = "Должность, ключевые слова"
             vacanciesTextview.isVisible = true
@@ -80,14 +77,14 @@ class SearchFragment : Fragment() {
             binding.offersListview.isVisible = true
         }
         if (vacanciesSize > 0) {
-            binding.progressBar.isVisible = false
-            binding.vacanciesScrollview.isVisible = true
             vModel.mainButtonText =
                 generateMoreCountOfVacanciesByCount(count = vModel.vacanciesRealSize) { str ->
                     "Еще $vacanciesSize $str"
                 }
             binding.button.text = vModel.mainButtonText
             binding.button.isVisible = !vModel.allVacanciesAreDisplayed
+            binding.vacanciesScrollview.isVisible = true
+            binding.progressBar.isVisible = false
         }
     }
 
